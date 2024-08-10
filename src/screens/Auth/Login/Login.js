@@ -90,7 +90,19 @@ const Login = ({ navigation, }) => {
       const user = {
         email: email.value,
         password: password.value,
+        firstName:"John",
+        lastName:"Doe",
+        profileImage:Constants.DummyPicture
       }
+      dispatch(setUser(user));
+      dispatch(setToken('DUMMY_TOKEN'));
+
+
+// Important
+      // const user = {
+      //   email: email.value,
+      //   password: password.value,
+      // }
       // loginAPICall({ ...user, isMobile:true})
     }
   }

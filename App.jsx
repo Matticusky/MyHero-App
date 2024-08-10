@@ -16,7 +16,7 @@ import { StatusBar } from 'react-native';
 
 import RootStack from './src/navigation/RootStack';
 import { Colors } from './src/assets';
-import {AudioRecorderPlayerComponent} from './src/components'
+import { AudioRecorderPlayerComponent } from './src/components'
 
 
 export const navigationRef = createNavigationContainerRef();
@@ -26,29 +26,28 @@ export const navigationRef = createNavigationContainerRef();
 
 
 const App = () => {
- 
+
 
   return (
     <ToastProvider
-    offsetTop={40}
-    successColor={Colors.parotGreen}>
-    <Provider store={store}>
-    
+      offsetTop={40}
+      successColor={Colors.parotGreen}>
+      <Provider store={store}>
         <PersistGate persistor={persister}>
-          <NavigationContainer  ref={navigationRef}>
+          <NavigationContainer ref={navigationRef}>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <StatusBar backgroundColor="#fff" barStyle="dark-content" />
               <RootStack />
-           
+
             </GestureHandlerRootView>
           </NavigationContainer>
         </PersistGate>
-    
-    </Provider>
-  </ToastProvider>
 
-  //  <AudioRecorderPlayerComponent/> 
-  
+      </Provider>
+    </ToastProvider>
+
+    //  <AudioRecorderPlayerComponent/> 
+
   );
 };
 

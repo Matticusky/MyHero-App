@@ -35,9 +35,6 @@ const OtpVerification = ({ navigation, route }) => {
 
   });
 
-  useEffect(() => {
-
-  }, []);
 
   const getOTP = async () => {
     try {
@@ -70,8 +67,17 @@ const OtpVerification = ({ navigation, route }) => {
   }
 
   const verifyOTPDummy = () =>{
-    if(otp.value === '12345'){
-      loginAPICallForDummy({email:user.email, password:user.password, isMobile:true})
+    if(otp.value === '1234'){
+      if(user?.isForgetEmail){
+        return navigation.navigate(Routes.RESET_PASSWORD)
+      }
+
+
+      dispatch(setUser(user));
+      dispatch(setToken('DUMMY_TOKEN'));
+      AlertService.toastPrompt("User registered successfully...", 'success')
+
+      // loginAPICallForDummy({email:user.email, password:user.password, isMobile:true})
     }else{
       AlertService.toastPrompt("Invalid OTP", 'error')
     }
@@ -101,8 +107,8 @@ const OtpVerification = ({ navigation, route }) => {
       AlertService.toastPrompt("Please enter OTP", "error")
     }
     else {
-      verifyOTP()
-      // verifyOTPDummy()
+      // verifyOTP()
+      verifyOTPDummy()
     }
     setTimeout(() => {
       setIsButtonDisabled(false);
@@ -140,7 +146,7 @@ const OtpVerification = ({ navigation, route }) => {
         })
         setOtpReset(true);
         setResetCounter(true)
-        getOTP()
+        // getOTP()
         setShowReset(false)
       },
       onPressButtonSecond: () => {

@@ -65,7 +65,7 @@ const InputText = forwardRef(({
         ) : null}
 
 
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, }}>
 
           {!isPhoneNumber ?
             < TextInput

@@ -240,49 +240,11 @@ const EditProfile = ({ navigation }) => {
             onSubmitEditing={()=>phoneRef.current?.focus()}
             maxLength={40}
           />
-          <CustomizedInput
-            ref={phoneRef}
-            fieldInfo={phoneNumber}
-            onChange={(text, unmasked) => {
-              setPhoneNumber({ ...phoneNumber, value: unmasked, error: "" });
-            }}
-            keyboardType="number-pad"
-            isPhoneNumber={true}
-            onSubmitEditing={()=>schoolNameRef.current?.focus()}
-          />
-           <CustomizedInput
-            fieldInfo={netId}
-            onChange={(text) => {
-              setNetId({ ...netId, value: text, error: "" });
-            }}
-            editable={false}
-          />
-          <CustomizedInput
-            ref={schoolNameRef}
-            fieldInfo={schoolName}
-            onChange={(text) => {
-              setSchoolName({ ...schoolName, value: text, error: "" });
-            }}
-            onSubmitEditing={()=>addressRef.current?.focus()}
-            maxLength={80}
-          />
-          <CustomizedInput
-            ref={addressRef}
-            fieldInfo={address}
-            onChange={(text) => {
-              setAddress({ ...address, value: text, error: "" });
-            }}
-            onSubmitEditing={()=>postalCodeRef.current?.focus()}
-            maxLength={80}
-          />
-          <CustomizedInput
-            ref={postalCodeRef}
-            fieldInfo={postalCode}
-            onChange={(text) => {
-              setPostalCode({ ...postalCode, value: text, error: "" });
-            }}
-            maxLength={6}
-          />
+        
+      
+         
+        
+         
          
 
         </View>

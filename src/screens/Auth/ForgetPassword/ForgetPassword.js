@@ -9,6 +9,7 @@ import styles from './styles';
 import axiosWrapper from '../../../services/AxiosWrapper';
 import { API_URLS } from '../../../services/apiPathList';
 import AlertService from '../../../services/AlertService';
+import Routes from '../../../navigation/Routes';
 
 const ForgetPassword = ({navigation,route}) => {
    const [loader, setLoader] = useState(false)
@@ -30,19 +31,28 @@ const onPressResetPassword = () => {
 
   let emailValidate = Validator("email", email.value);
 
-  if (email.value == "") {
+  if (email.value === "") {
     setEmail({...email, error:"Email is required"})
     error["email"]="Email is required"
   }
 
-  if(email.value!=""&&emailValidate)
+  if(email?.value!=="" && emailValidate)
     {
       setEmail({...email, error:emailValidate})
       error["email"]=emailValidate
     }
     if(Object.keys(error).length==0)
     {
-      verifyEmailAPICall()
+      let user = {
+        email: email?.value,
+        isForgetEmail:true
+      }
+      navigation.navigate(Routes.OTP_VERIFICATION,{
+        user:user
+      })
+
+
+      // verifyEmailAPICall()
     }
 }
 
@@ -85,7 +95,7 @@ const verifyEmailAPICall = async () =>{
          </Text>
 
          <Text style={styles.regText}>
-         {"Please enter your registered Email address to send you an OTP"}
+          {"Please enter your registered Email address to send you an OTP"}
        
          </Text>
         </View>
@@ -97,10 +107,8 @@ const verifyEmailAPICall = async () =>{
            fieldInfo={email}
            onChange={(value) => {
               setEmail({...email, value:value, error:""})
-            
            }}
           />
-
 
          <Button
           text={"Reset Password"}

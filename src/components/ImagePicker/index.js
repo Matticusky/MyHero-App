@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { View, TextInput, StyleSheet, Image, Text, TouchableOpacity, Alert, Platform } from 'react-native';
 
 import { CommonStyles, FontSize, UtilityMethods } from '../../utility';
@@ -8,7 +8,7 @@ import FastImageComponent from '../FastImageComponent';
 const { wp, hp } = UtilityMethods;
 
 const ImagePicker = ({ filedInfo, editImage, setEditImage, onChnage }) => {
-
+console.log(filedInfo)
   const onPressImage = () => {
 
     Alert.alert("Choose Image", "Select Image from", [
@@ -105,9 +105,9 @@ const ImagePicker = ({ filedInfo, editImage, setEditImage, onChnage }) => {
           {filedInfo?.title}
         </Text>
         {!filedInfo?.atEdit && <Text style={[styles.hashText]}>*</Text>}
-
-
       </View>
+
+
       {filedInfo?.error &&
         <Text style={[styles.ErrorText]}>
           {filedInfo?.error}
@@ -129,9 +129,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderStyle: "dashed",
     alignSelf: "center",
-
-
-
   }),
   input: {
     ...CommonStyles.REGULAR,

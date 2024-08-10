@@ -102,9 +102,17 @@ const SignUp = ({ navigation }) => {
       setEmail({ ...email, error: "Email is required" });
       error["email"] = "Email is required";
     }
+     if (email.value !== "" && emailValidate) {
+      setEmail({ ...email, error: emailValidate });
+      error["email"] = emailValidate;
+    }
     if (password.value?.trim() === "") {
       setPassword({ ...password, error: "Password is required" });
       error["password"] = "Password is required";
+    }
+    if (password.value !== "" && passwordValidate) {
+      setPassword({ ...password, error: passwordValidate });
+      error["password"] = passwordValidate;
     }
     if (confirmPassword.value?.trim() === "") {
       setConfirmPassword({ ...confirmPassword, error: "Confirm Password is required" });
@@ -121,25 +129,6 @@ const SignUp = ({ navigation }) => {
       setLastName({ ...lastName, error: "Last Name is required" });
       error["lastName"] = "Last Name is required";
     }
-    if (phoneNumber.value?.trim() === "") {
-      setPhoneNumber({ ...phoneNumber, error: "Phone Number is required" });
-      error["phoneNumber"] = "Phone Number is required";
-    } 
-    else if (
-      // !validatePhone(phoneNumber.value)
-      phoneNumber.value?.trim().length < 10
-    ) {
-      setPhoneNumber({ ...phoneNumber, error: "Phone Number is not correct" });
-      error["phoneNumber"] = "Phone Number is not correct";
-    }
-    if (netId.value?.trim() === "") {
-      setNetId({ ...netId, error: "NetID is required" });
-      error["netId"] = "NetID is required";
-    }
-    if (schoolName.value?.trim() === "") {
-      setSchoolName({ ...schoolName, error: "School Name is required" });
-      error["schoolName"] = "School Name is required";
-    }
     if (!rememberMe.value) {
       return AlertService.toastPrompt('You must agree to the terms and conditions','error')
     }
@@ -150,31 +139,29 @@ const SignUp = ({ navigation }) => {
 
     setError(error);
 
-    if (email.value !== "" && emailValidate) {
-      setEmail({ ...email, error: emailValidate });
-      error["email"] = emailValidate;
-    }
-    if (password.value !== "" && passwordValidate) {
-      setPassword({ ...password, error: passwordValidate });
-      error["password"] = passwordValidate;
-    }
-
-    setError(error);
-
     if (Object.keys(error).length === 0) {
+
       let user = {
         email: email.value,
         password: password?.value?.trim(),
         firstName: firstName.value,
         lastName: lastName.value,
-        phoneNumber: `+${phoneNumber.value}`,
-        netID: netId.value,
-        schoolName: schoolName.value,
-        role: "STUDENT",
-        // isLogin: true,
-      };
+      }
+      dispatch(clearRememberMeCreds());
+       navigation.navigate(Routes.OTP_VERIFICATION,{
+        user:user
+      })
 
-      registerAPICall(user)
+      
+      
+// Important 
+      // let user = {
+      //   email: email.value,
+      //   password: password?.value?.trim(),
+      //   firstName: firstName.value,
+      //   lastName: lastName.value,
+      // };
+      // registerAPICall(user)
 
     }
   };
@@ -227,8 +214,6 @@ const SignUp = ({ navigation }) => {
             fieldInfo={email}
             onChange={(text) => {
               setEmail({ ...email, value: text.replace(/\s/g, ''), error: "" });
-              let ExtractId = text.split("@");
-              setNetId({ ...netId, value: ExtractId[0], error: "" });
             }}
             onSubmitEditing={()=>passwordRef.current?.focus()}
           />

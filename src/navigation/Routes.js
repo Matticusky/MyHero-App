@@ -22,6 +22,7 @@ const Routes = {
   EXCUSE_ATTENDANCE_SUCCESS_SCREEN:"ExcuseAttendanceSuccessScreen",
   OTP_VERIFICATION:"OtpVerification",
   FORGET_PASSWORD:"ForgetPassword", 
+  RESET_PASSWORD:"ResetPassword", 
   HISTORY:"History",
   PROFILE:"Profile",
   BOTTOM_TAB:"BottomTab",

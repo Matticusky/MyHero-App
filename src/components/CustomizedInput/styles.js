@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
     margin: 0,
   
    borderWidth: 1,
-    borderRadius: 100,
-    backgroundColor: 'white',
+    borderRadius: UtilityMethods.wp(6),
+    backgroundColor: Colors.WHITE,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

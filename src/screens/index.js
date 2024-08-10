@@ -7,6 +7,7 @@ import SignUp from "./Auth/SignUp/SignUp";
 import UserType from "./Auth/UserType/UserType";
 import OtpVerification from "./Auth/OtpVerfication/OtpVerification";
 import ForgetPassword from "./Auth/ForgetPassword/ForgetPassword";
+import ResetPassword from "./Auth/ResetPassword/ResetPassword";
 
 
  /// Dashboard Screens///
@@ -46,6 +47,7 @@ export {
   ExcuseAttandence,
   OtpVerification,
   ForgetPassword,
+  ResetPassword,
   History,
   Profile,
   InstructorHomeScreen,

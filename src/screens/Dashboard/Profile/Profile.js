@@ -33,22 +33,23 @@ const Profile = ({ navigation }) => {
     value: user?.profilePicture || Constants.letImagePlaceholder,
     atEdit: true
   });
+  console.log('user',user)
 
-  useEffect(() => {
-    if (isFocused) {
-      setProfileImage({
-        ...profileImage,
-        value: user?.profilePicture || Constants.letImagePlaceholder,
-        error: ""
-      });
-    }
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     setProfileImage({
+  //       ...profileImage,
+  //       value: user?.profilePicture || Constants.letImagePlaceholder,
+  //       error: ""
+  //     });
+  //   }
 
-  }, [isFocused])
+  // }, [isFocused])
 
 
   useEffect(() => {
     if (editImage) {
-      editUserProfile()
+      // editUserProfile()
     }
   }, [editImage])
 
@@ -112,7 +113,7 @@ const Profile = ({ navigation }) => {
               error: ""
             })
           }}
-          setEditImage={setEditImage}
+          // setEditImage={setEditImage}
         />
 
         <UserDetails userData={user} />
