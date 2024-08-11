@@ -5,5 +5,6 @@ const Images = {
     LOGO: require('./Logo.png'),
     EMPTY_IMAGE: require('./emptyImage.jpg'),
     CHECK_MARK: require('./CheckMark.png'),
+    LOGO_HEADER: require('./LogoHeader.png'),
 };
 export default Images;

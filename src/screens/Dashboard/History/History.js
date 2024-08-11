@@ -1,46 +1,88 @@
-import React from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
-import { Header, MainLayout } from '../../../components';
-import { attendanceData } from '../../../Data/DummyData';
-import AttendanceHistoryComponent from '../../../components/AttendanceHistoryComponent';
-import styles from './style';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Text, View, RefreshControl } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { ClassDetailBox, CustomFlatList, EmptyComponent, Header, MainLayout, ModifiedOTPInput } from '../../../components';
+import styles from './styles';
+import { MyClasses } from '../../../Data/DummyData';
+import Routes from '../../../navigation/Routes';
+import axiosWrapper from '../../../services/AxiosWrapper';
+import { API_URLS } from '../../../services/apiPathList';
+import formatDate, { getCurrentDateInFormat } from '../../../utility/FormateDate';
 
-const History = () => {
+const LibraryScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const [loader, setLoader] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [classes, setClasses] = useState([]);
+  const user = useSelector(state => state.auth.user);
+  const token = useSelector(state => state.auth.token);
 
-  const renderItem = ({ item }) => (
-    <AttendanceHistoryComponent
-      status={item.status}
-      className={item.className}
-      dateTime={item.dateTime}
-    />
-  );
+  // useEffect(() => {
+  //   getInstructorClasses();
+  // }, []);
+
+  // const getInstructorClasses = async (isRefresh=true) => {
+  //   if(isRefresh)
+  //     setLoader(true);
+    
+  //   try {
+  //     let response = await axiosWrapper('GET', `${API_URLS.GET_CLASSES}?date=${getCurrentDateInFormat()}`, null, token, false, 'json', false);
+  //     setClasses(response.data);
+  //   } catch (error) {
+      
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
+
+  const handleAttendance = (item) => {
+    // navigation.navigate(Routes.ATTENDANCE, { item });
+  };
+
+  // const onRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   getInstructorClasses(false).then(() => setRefreshing(false));
+  // }, []);
 
   return (
-    <MainLayout>
-      <Header title="Attendance History"
-        showBackButton={false}
-        DrawerHeader={true}
-      />
-
-      {/* <FlatList
-        data={attendanceData}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContentContainer}
-      /> */}
-
-      <View style={styles.imgContainer}>
-
-        <Image
-          source={{ uri: 'http://15.235.162.99:3556/assets/coming-soon-DrP5VIqS.png' }}
-          style={styles.image}
-          resizeMode='contain'
+    <MainLayout loader={loader}>
+      <View style={styles.cont}>
+        <Header title="Home"
+          showBackButton={false}
+          DrawerHeader={true}
         />
-
+        <CustomFlatList
+          listStyle={styles.listStyle}
+          // refreshControl={
+          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          // }
+          ListEmptyComponent={() => (
+            <EmptyComponent 
+            title={'No Classes Found!'}
+            desc={'Sorry we cannot find any registered classes for you. Please contact your instructor to add you to their class lists.'}
+            />
+          )}
+          ListHeaderComponent={
+            <View style={styles.headerCont}>
+              <Text style={styles.headerText}>My Classes</Text>
+              <Text style={styles.regText}>
+                for {formatDate(new Date())}
+              </Text>
+            </View>
+          }
+          data={classes}
+          keyExtractor={(item,index) => index?.toString()}
+          renderItem={({ item }) => (
+            <ClassDetailBox
+              item={item}
+              buttonText="Mark Attendance"
+              onPress={() => handleAttendance(item)}
+            />
+          )}
+        />
       </View>
-
     </MainLayout>
   );
 }
 
-export default History;
+export default LibraryScreen;

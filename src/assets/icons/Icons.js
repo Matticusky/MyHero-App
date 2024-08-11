@@ -44,6 +44,17 @@ import Cross from './Cross.svg'
 import PDF from './pdf.svg'
 
 
+// New Icons
+import redDot from './redDot.svg'
+import homeFilled from './homeFilled.svg'
+import homeUnfilled from './homeUnfilled.svg'
+import libraryFilled from './libraryFilled.svg'
+import libraryUnfilled from './libraryUnfilled.svg'
+import exchangeFilled from './exchangeFilled.svg'
+import exchangeUnfilled from './exchangeUnfilled.svg'
+import settings from './settings.svg'
+
+
 
 
 export default Icons = {
@@ -91,6 +102,16 @@ export default Icons = {
     Attach,
     Cross,
     PDF,
+
+    // New Icons
+    redDot,
+    homeFilled,
+    homeUnfilled,
+    libraryFilled,
+    libraryUnfilled,
+    exchangeFilled,
+    exchangeUnfilled,
+    settings,
 }
 
 

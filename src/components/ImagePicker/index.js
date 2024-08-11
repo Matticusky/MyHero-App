@@ -8,7 +8,6 @@ import FastImageComponent from '../FastImageComponent';
 const { wp, hp } = UtilityMethods;
 
 const ImagePicker = ({ filedInfo, editImage, setEditImage, onChnage }) => {
-console.log(filedInfo)
   const onPressImage = () => {
 
     Alert.alert("Choose Image", "Select Image from", [

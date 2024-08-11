@@ -33,7 +33,6 @@ const Profile = ({ navigation }) => {
     value: user?.profilePicture || Constants.letImagePlaceholder,
     atEdit: true
   });
-  console.log('user',user)
 
   // useEffect(() => {
   //   if (isFocused) {

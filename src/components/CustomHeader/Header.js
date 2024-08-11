@@ -1,24 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { CommonStyles, FontSize, UtilityMethods } from '../../utility';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Colors, Fonts, Icons } from '../../assets';
+import { Colors, Fonts, Icons, Images } from '../../assets';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import Routes from '../../navigation/Routes';
+import NotificationsIcon from '../NotificationIcon';
 
-const Header = ({ 
-  title, 
-  showBackButton = true, 
-  onPressLeft, 
-  leftIcon, 
-  rightcontent, 
-  isLogout = false, 
+const Header = ({
+  title,
+  logoImage,
+  showBackButton = true,
+  onPressLeft,
+  leftIcon,
+  rightcontent,
+  isLogout = false,
   logoutOnPress,
-  rightIcons=true
+  rightIcons = true
 }) => {
   const navigation = useNavigation();
 
-  const onPressNotificaiton = () =>{
+  const onPressNotificaiton = () => {
     // navigation.navigate(Routes.NOTIFICATION_SCREEN)
   }
 
@@ -49,6 +51,10 @@ const Header = ({
         <Text style={styles.headerText}>
           {title}
         </Text>
+        {
+          logoImage && 
+          <Image source={Images.LOGO_HEADER} />
+        }
       </View>
 
       {rightcontent &&
@@ -60,9 +66,21 @@ const Header = ({
 
       <View style={styles.rightIcons}>
         {rightIcons &&
-          <TouchableOpacity onPress={onPressNotificaiton}>
-            <Icons.Notifications />
-          </TouchableOpacity>}
+          <>
+            <TouchableOpacity onPress={onPressNotificaiton}>
+              <NotificationsIcon />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPressNotificaiton}>
+              <Icons.settings
+                width={UtilityMethods.wp(6)}
+                height={UtilityMethods.wp(6)}
+              />
+            </TouchableOpacity>
+          </>
+        }
+
+
+
         {isLogout &&
           <TouchableOpacity onPress={logoutOnPress}>
             <Icons.logoutIcon2 />

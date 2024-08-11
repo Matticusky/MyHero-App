@@ -25,7 +25,8 @@ import ReasonTextInput from "./ReasonTextInput";
 import FileUploadComponent from "./FileUploadComponent";
 import FastImageComponent from "./FastImageComponent";
 
-
+// New components
+import NotificationIcon from "./NotificationIcon";
 
 
 
@@ -56,4 +57,5 @@ export {
     ReasonTextInput,
     FileUploadComponent,
     FastImageComponent,
+    NotificationIcon,
 }

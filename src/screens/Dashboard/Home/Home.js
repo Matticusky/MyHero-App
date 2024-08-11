@@ -17,32 +17,32 @@ const Home = ({ navigation }) => {
   const user = useSelector(state => state.auth.user);
   const token = useSelector(state => state.auth.token);
 
-  useEffect(() => {
-    getInstructorClasses();
-  }, []);
+  // useEffect(() => {
+  //   getInstructorClasses();
+  // }, []);
 
-  const getInstructorClasses = async (isRefresh=true) => {
-    if(isRefresh)
-      setLoader(true);
+  // const getInstructorClasses = async (isRefresh=true) => {
+  //   if(isRefresh)
+  //     setLoader(true);
     
-    try {
-      let response = await axiosWrapper('GET', `${API_URLS.GET_CLASSES}?date=${getCurrentDateInFormat()}`, null, token, false, 'json', false);
-      setClasses(response.data);
-    } catch (error) {
+  //   try {
+  //     let response = await axiosWrapper('GET', `${API_URLS.GET_CLASSES}?date=${getCurrentDateInFormat()}`, null, token, false, 'json', false);
+  //     setClasses(response.data);
+  //   } catch (error) {
       
-    } finally {
-      setLoader(false);
-    }
-  };
+  //   } finally {
+  //     setLoader(false);
+  //   }
+  // };
 
   const handleAttendance = (item) => {
     // navigation.navigate(Routes.ATTENDANCE, { item });
   };
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    getInstructorClasses(false).then(() => setRefreshing(false));
-  }, []);
+  // const onRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   getInstructorClasses(false).then(() => setRefreshing(false));
+  // }, []);
 
   return (
     <MainLayout loader={loader}>
@@ -53,9 +53,9 @@ const Home = ({ navigation }) => {
         />
         <CustomFlatList
           listStyle={styles.listStyle}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+          // refreshControl={
+          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          // }
           ListEmptyComponent={() => (
             <EmptyComponent 
             title={'No Classes Found!'}

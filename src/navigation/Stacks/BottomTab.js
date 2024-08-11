@@ -34,10 +34,10 @@ const BottomTab = () => {
             <Tab.Screen name={Routes.HISTORY} component={History} 
               options={{
                 tabBarIcon: ({focused}) => (
-                  tabBarIconandText({focused, icon:focused?<Icons.ClockCounterFilled
-                    width={UtilityMethods.wp(8)} height={UtilityMethods.wp(8)}
-                    />:<Icons.ClockCounterUnfilled
-                    width={UtilityMethods.wp(8)} height={UtilityMethods.wp(8)}
+                  tabBarIconandText({focused, icon:focused?<Icons.libraryFilled
+                    width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
+                    />:<Icons.libraryUnfilled
+                    width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
                     />, text: "History"})
                 )
               }}
@@ -46,10 +46,10 @@ const BottomTab = () => {
             <Tab.Screen name={Routes.HOME} component={Home} 
               options={{
                 tabBarIcon: ({focused}) => (
-                  tabBarIconandText({focused, icon:focused?<Icons.HouseFilled
-                  width={UtilityMethods.wp(8)} height={UtilityMethods.wp(8)}
-                  />:<Icons.HouseUnfilled
-                  width={UtilityMethods.wp(8)} height={UtilityMethods.wp(8)}
+                  tabBarIconandText({focused, icon:focused?<Icons.homeFilled 
+                  width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
+                  />:<Icons.homeUnfilled
+                  width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
                   />, text: "Home"})
                 )
               
@@ -59,10 +59,10 @@ const BottomTab = () => {
             <Tab.Screen name={Routes.PROFILE} component={Profile} 
               options={{
                 tabBarIcon: ({focused}) => (
-                  tabBarIconandText({focused, icon:focused?<Icons.UserFilled
-                    width={UtilityMethods.wp(8)} height={UtilityMethods.wp(8)}
-                    />:<Icons.UserUnfilled
-                    width={UtilityMethods.wp(8)} height={UtilityMethods.wp(8)}
+                  tabBarIconandText({focused, icon:focused?<Icons.exchangeFilled 
+                    width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
+                    />:<Icons.exchangeUnfilled
+                    width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
                     />, text: "Account"})
                 )
               }}
@@ -79,8 +79,8 @@ export default BottomTab;
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-    borderTopLeftRadius: UtilityMethods.wp(5),
-    borderTopRightRadius: UtilityMethods.wp(5),
+    // borderTopLeftRadius: UtilityMethods.wp(5),
+    // borderTopRightRadius: UtilityMethods.wp(5),
     height:UtilityMethods.hp(8),
     backgroundColor: Colors.WHITE,
     shadowColor: Platform.OS == "ios" ? Colors.TransParentBackground : Colors.BLACK,
@@ -90,12 +90,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    
     borderTopWidth:0
   },
   textCont:{
     alignItems: 'center',
-    // height:UtilityMethods.hp(4),
-   
     justifyContent: 'space-between',
     marginTop: Platform.OS == "ios" ? UtilityMethods.hp(2) : 0,
   
