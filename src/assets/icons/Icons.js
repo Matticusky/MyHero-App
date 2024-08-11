@@ -58,6 +58,7 @@ import ListIcon2 from './ListIcon.svg'
 import Add from './Add.svg'
 import AZIcon from './AZIcon.svg'
 import AllMembers from './AllMembers.svg'
+import cardWhite from './cardWhite.svg'
 
 
 
@@ -123,6 +124,7 @@ export default Icons = {
     Add,
     AZIcon,
     AllMembers,
+    cardWhite,
 }
 
 

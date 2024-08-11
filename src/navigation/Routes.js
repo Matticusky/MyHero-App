@@ -25,6 +25,7 @@ const Routes = {
   RESET_PASSWORD:"ResetPassword", 
   HISTORY:"History",
   PROFILE:"Profile",
+  MyExchangeScreen:'MyExchangeScreen',
   BOTTOM_TAB:"BottomTab",
   DRAWER_NAVIGATOR:"DrawerNavigator",
   CHANGE_PASSWORD:'CHANGE_PASSWORD',  

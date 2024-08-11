@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Profile, LibraryScreen } from '../../screens';
+import { Home, Profile, LibraryScreen, MyExchangeScreen } from '../../screens';
 import Routes from '../Routes';
 import { Colors, Fonts, Icons } from '../../assets';
 import { FontSize, UtilityMethods } from '../../utility';
@@ -56,18 +56,16 @@ const BottomTab = () => {
               }}
             
             />
-            <Tab.Screen name={Routes.PROFILE} component={Profile} 
+            <Tab.Screen name={Routes.MyExchangeScreen} component={MyExchangeScreen} 
               options={{
                 tabBarIcon: ({focused}) => (
                   tabBarIconandText({focused, icon:focused?<Icons.exchangeFilled 
                     width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
                     />:<Icons.exchangeUnfilled
                     width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
-                    />, text: "Account"})
+                    />, text: "My Exchange"})
                 )
               }}
-
-            
             />
             
         </Tab.Navigator>

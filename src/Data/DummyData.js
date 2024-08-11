@@ -163,42 +163,6 @@ export const CACHE_CLEAR_INTERVAL = 86400000;
 
 
 
-// export const DummyBooksData = [
-//   {
-//     "id": 0,
-//   },
-//   {
-//     "id": 1,
-//     "title": "The Magical Adventures of Sunny the Squirrel",
-//     'image': Images.BOOK_1,
-//     'time': '2 days ago'
-//   },
-//   {
-//     "id": 2,
-//     "title": "The Magical Adventures of Sunny the Squirrel",
-//     'image': Images.BOOK_2,
-//     'time': '5 days ago'
-//   },
-//   {
-//     "id": 3,
-//     "title": "The Magical Adventures of Sunny the Squirrel",
-//     'image': Images.BOOK_3,
-//     'time': '3 weeks ago'
-//   },
-//   {
-//     "id": 4,
-//     "title": "The Magical Adventures of Sunny the Squirrel",
-//     'image': Images.BOOK_2,
-//     'time': '1 Month ago'
-//   },
-//   {
-//     "id": 5,
-//     "title": "The Magical Adventures of Sunny the Squirrel",
-//     'image': Images.BOOK_1,
-//     'time': '1 day ago'
-//   },
-
-// ]
 
 export const DummyBooksData = [
  {
@@ -269,3 +233,44 @@ export const membersData = [
   { _id: '2', name: 'John',image: Images.MEMBER_2 },
   { _id: '3', name: 'Alice',image: Images.MEMBER_3 },
 ];
+
+
+
+export const PhysicalBooks = [
+   {
+     "id": 1,
+     "title": "The Magical Adventures of Sunny the Squirrel",
+     'image': Images.BOOK_1,
+     'createdAt': new Date('2024-08-08T10:00:00Z'),
+     'member': { _id: '1', name: 'Markram' }
+   },
+   {
+     "id": 2,
+     "title": "The Enchanted Forest",
+     'image': Images.BOOK_2,
+     'createdAt': new Date('2024-08-05T14:30:00Z'),
+     'member': { _id: '2', name: 'John' }
+   },
+   {
+     "id": 3,
+     "title": "Journey to the Moonlit Meadow",
+     'image': Images.BOOK_3,
+     'createdAt': new Date('2024-07-15T09:00:00Z'),
+     'member': { _id: '1', name: 'Markram' }
+   },
+   {
+     "id": 4,
+     "title": "Mysteries of the Deep Sea",
+     'image': Images.BOOK_2,
+     'createdAt': new Date('2024-07-01T12:00:00Z'),
+     'member': { _id: '3', name: 'Alice' }
+   },
+   {
+     "id": 5,
+     "title": "The Lost Treasure of Pirate Cove",
+     'image': Images.BOOK_1,
+     'createdAt': new Date('2024-08-09T08:00:00Z'),
+     'member': { _id: '2', name: 'John' }
+   },
+ 
+ ];

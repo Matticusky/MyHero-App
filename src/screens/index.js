@@ -16,6 +16,7 @@ import ResetPassword from "./Auth/ResetPassword/ResetPassword";
  import Attendance from "./Dashboard/Attendence/Attendence";
  import EditProfile from "./Dashboard/EditProfile/EditProfile";
  import LibraryScreen from "./Dashboard/LibraryScreen/LibraryScreen";
+ import MyExchangeScreen from "./Dashboard/MyExchangeScreen/MyExchangeScreen";
  import Profile from "./Dashboard/Profile/Profile";
  import ChangePassword from "./Dashboard/ChangePassword/ChangePassword";
 
@@ -36,6 +37,7 @@ export {
   ForgetPassword,
   ResetPassword,
   LibraryScreen,
+  MyExchangeScreen,
   Profile,
   ChangePassword,
   NotificationScreen,
