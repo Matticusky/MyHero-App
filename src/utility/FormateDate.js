@@ -123,3 +123,30 @@ export const sortClassesByDayAndTime = (classes) => {
     return aStartTime.isAfter(bStartTime) ? 1 : -1;
   });
 };
+
+
+
+
+export const getRelativeTime = (date) => {
+  const now = moment();
+  const diffInSeconds = now.diff(date, 'seconds');
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds} seconds ago`;
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+  } else if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+  } else if (diffInSeconds < 604800) {
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  } else if (diffInSeconds < 2419200) {
+    const weeks = Math.floor(diffInSeconds / 604800);
+    return `${weeks} week${weeks > 1 ? 's' : ''} ago`;
+  } else {
+    const months = now.diff(date, 'months');
+    return `${months} month${months > 1 ? 's' : ''} ago`;
+  }
+};

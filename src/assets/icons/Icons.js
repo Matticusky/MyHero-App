@@ -53,6 +53,11 @@ import libraryUnfilled from './libraryUnfilled.svg'
 import exchangeFilled from './exchangeFilled.svg'
 import exchangeUnfilled from './exchangeUnfilled.svg'
 import settings from './settings.svg'
+import GridIcon from './GridIcon.svg'
+import ListIcon2 from './ListIcon.svg'
+import Add from './Add.svg'
+import AZIcon from './AZIcon.svg'
+
 
 
 
@@ -112,6 +117,10 @@ export default Icons = {
     exchangeFilled,
     exchangeUnfilled,
     settings,
+    GridIcon,
+    ListIcon2,
+    Add,
+    AZIcon,
 }
 
 

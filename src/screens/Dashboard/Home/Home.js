@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, View, RefreshControl } from 'react-native';
+import { Text, View, RefreshControl, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ClassDetailBox, CustomFlatList, EmptyComponent, Header, MainLayout, ModifiedOTPInput } from '../../../components';
+import { Button, ClassDetailBox, CustomFlatList, EmptyComponent, Header, MainLayout, ModifiedOTPInput } from '../../../components';
 import styles from './styles';
 import { MyClasses } from '../../../Data/DummyData';
 import Routes from '../../../navigation/Routes';
 import axiosWrapper from '../../../services/AxiosWrapper';
 import { API_URLS } from '../../../services/apiPathList';
 import formatDate, { getCurrentDateInFormat } from '../../../utility/FormateDate';
+import { Images } from '../../../assets';
 
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -47,39 +48,19 @@ const Home = ({ navigation }) => {
   return (
     <MainLayout loader={loader}>
       <View style={styles.cont}>
-        <Header title="Home"
+        <Header 
+          logoImage={true}
           showBackButton={false}
           DrawerHeader={true}
         />
-        <CustomFlatList
-          listStyle={styles.listStyle}
-          // refreshControl={
-          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          // }
-          ListEmptyComponent={() => (
-            <EmptyComponent 
-            title={'No Classes Found!'}
-            desc={'Sorry we cannot find any registered classes for you. Please contact your instructor to add you to their class lists.'}
-            />
-          )}
-          ListHeaderComponent={
-            <View style={styles.headerCont}>
-              <Text style={styles.headerText}>My Classes</Text>
-              <Text style={styles.regText}>
-                for {formatDate(new Date())}
-              </Text>
-            </View>
-          }
-          data={classes}
-          keyExtractor={(item,index) => index?.toString()}
-          renderItem={({ item }) => (
-            <ClassDetailBox
-              item={item}
-              buttonText="Mark Attendance"
-              onPress={() => handleAttendance(item)}
-            />
-          )}
-        />
+
+        <View style={styles.container} >
+          <Image source={Images.LOGO_LARGE} style={styles.logoLarge} />
+          <Button
+            text="Connect with members"
+          />
+
+        </View>
       </View>
     </MainLayout>
   );

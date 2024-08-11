@@ -48,19 +48,19 @@ const Header = ({
           </TouchableOpacity>
         }
 
-        <Text style={styles.headerText}>
+        {title && 
+          <Text style={styles.headerText}>
           {title}
-        </Text>
+        </Text>}
         {
           logoImage && 
-          <Image source={Images.LOGO_HEADER} />
+          <Image source={Images.LOGO_HEADER} style={styles.logoImage} resizeMode='contain' />
         }
       </View>
 
       {rightcontent &&
         <View>
           {rightcontent}
-
         </View>
       }
 
@@ -99,9 +99,9 @@ const styles = StyleSheet.create({
     width: "100%",
     // height: UtilityMethods.hp(8),
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
-    ...CommonStyles.PADDING_HORIZONTAL
+    ...CommonStyles.PADDING_HORIZONTAL,
   },
   icon: {
     width: UtilityMethods.wp(12),
@@ -115,6 +115,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: 'center',
     columnGap: UtilityMethods.wp(4)
+  },
+  logoImage:{
+    width: UtilityMethods.wp(32),
+    height: UtilityMethods.wp(9),
   }
 
 });

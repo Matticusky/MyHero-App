@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home, Profile, History } from '../../screens';
+import { Home, Profile, LibraryScreen } from '../../screens';
 import Routes from '../Routes';
 import { Colors, Fonts, Icons } from '../../assets';
 import { FontSize, UtilityMethods } from '../../utility';
@@ -31,14 +31,14 @@ const BottomTab = () => {
             tabBarStyle: [styles.tabBarStyle],
           }}
            >
-            <Tab.Screen name={Routes.HISTORY} component={History} 
+            <Tab.Screen name={Routes.HISTORY} component={LibraryScreen} 
               options={{
                 tabBarIcon: ({focused}) => (
                   tabBarIconandText({focused, icon:focused?<Icons.libraryFilled
                     width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
                     />:<Icons.libraryUnfilled
                     width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}
-                    />, text: "History"})
+                    />, text: "Library"})
                 )
               }}
             

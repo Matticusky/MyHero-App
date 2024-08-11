@@ -27,6 +27,10 @@ import FastImageComponent from "./FastImageComponent";
 
 // New components
 import NotificationIcon from "./NotificationIcon";
+import SearchBar from "./SearchBarComponent";
+import BooksCardComponent from "./BooksCardComponent";
+import BooksListComponent from "./BooksListComponent";
+import SortAndFilter from "./SortAndFilter";
 
 
 
@@ -58,4 +62,8 @@ export {
     FileUploadComponent,
     FastImageComponent,
     NotificationIcon,
+    SearchBar,
+    BooksCardComponent,
+    BooksListComponent,
+    SortAndFilter,
 }

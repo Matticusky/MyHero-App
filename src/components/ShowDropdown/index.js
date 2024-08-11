@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { View, StyleSheet, Text } from 'react-native';
 import { Colors, Fonts, Icons } from '../../assets';
@@ -15,13 +15,16 @@ const ShowDropdown = ({
   valueField = "value",
   selectedTextStyle = {},
   containerStyle,
-  maxHeight = 100,
+  maxHeight = UtilityMethods.hp(18),
   search = false,
   renderLeftIcon,
+  renderItem,
 }) => {
+  const selectedIndex = useMemo(() => data.findIndex(item => item[valueField] === value), [data, value, valueField]);
+
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <Dropdown
         style={[styles.dropdown, style]}
         placeholderStyle={styles.placeholderStyle}
@@ -40,6 +43,8 @@ const ShowDropdown = ({
           setValue(item.value);
         }}
         itemTextStyle={[styles.selectedTextStyle]}
+        renderItem={renderItem && renderItem}
+       
       />
     </View>
   );
@@ -53,8 +58,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     paddingHorizontal: UtilityMethods.wp(4),
     backgroundColor: Colors.WHITE,
-    // marginHorizontal: UtilityMethods.wp(3),
-
   },
   placeholderStyle: {
     fontSize: FontSize.VALUE(16),
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     marginLeft:UtilityMethods.wp(1)
   },
   selectedTextStyle: {
-    fontSize: FontSize.VALUE(16),
+    fontSize: FontSize.VALUE(14),
     color: Colors.BLACK,
     fontFamily: Fonts.REGULAR,
   },

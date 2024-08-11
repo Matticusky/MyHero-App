@@ -20,12 +20,9 @@ const styles = StyleSheet.create({
     textAlign:"center"
   },
   button:{
-  
-    marginTop:UtilityMethods.hp(5),
+      marginTop:UtilityMethods.hp(5),
     backgroundColor:Colors.SECONDARY1,
-
-
-  },
+},
   linkText:{
     ...CommonStyles.REGULAR,
     color:Colors.BLACK,
@@ -37,7 +34,6 @@ const styles = StyleSheet.create({
     color:Colors.BLACK,
     fontSize:FontSize.VALUE(18),
   },
-
   regText:{
     ...CommonStyles.REGULAR,
     color:Colors.BLACK,
@@ -52,16 +48,11 @@ const styles = StyleSheet.create({
   listStyle:{
     marginTop:UtilityMethods.hp(2),
   },
-  container:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    paddingHorizontal:UtilityMethods.wp(5)
+  listContainer:{
+    paddingHorizontal:UtilityMethods.wp(5),
   },
-  logoLarge:{
-    width:UtilityMethods.wp(70),
-    height:UtilityMethods.wp(70),
-    resizeMode:'contain'
+  gridContainer:{
+    width:UtilityMethods.wp(30)
   }
 });
 
