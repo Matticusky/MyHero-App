@@ -57,6 +57,7 @@ import GridIcon from './GridIcon.svg'
 import ListIcon2 from './ListIcon.svg'
 import Add from './Add.svg'
 import AZIcon from './AZIcon.svg'
+import AllMembers from './AllMembers.svg'
 
 
 
@@ -121,6 +122,7 @@ export default Icons = {
     ListIcon2,
     Add,
     AZIcon,
+    AllMembers,
 }
 
 

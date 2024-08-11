@@ -14,9 +14,10 @@ const SortAndFilter = ({
   onSortChange 
 }) => {
 
-  const ProfileCard = ({ name, image }) => {
+  const ProfileCard = ({ name, image,svg:Svg, props }) => {
     return (
-      <View style={styles.profileContainer}>
+      <View style={styles.profileContainer} {...props}>
+        {Svg && <Svg width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)} style={styles.image}  />}
        {image && <Image source={image} style={styles.image} />}
         <Text style={styles.name}>{name}</Text>
       </View>
@@ -28,7 +29,7 @@ const SortAndFilter = ({
     <ShowDropdown
       data={members}
       value={selectedMember}
-      setValue={onPersonChange}
+      setValue={(value)=>onPersonChange(value._id)}
       labelField="name"
       valueField="_id"
       placeTxt="Select Member"
@@ -44,7 +45,7 @@ const SortAndFilter = ({
         { label: 'Oldest', value: 'oldest' },
       ]}
       value={selectedDateOrder}
-      setValue={(value) => onDateChange(value)}
+      setValue={(value) => onDateChange(value.value)}
       placeTxt="Sort By Date"
       style={styles.timeDropDown}
     />

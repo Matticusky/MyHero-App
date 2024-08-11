@@ -40,11 +40,10 @@ const ShowDropdown = ({
         placeholder={placeTxt}
         value={value}
         onChange={(item) => {
-          setValue(item.value);
+          setValue(item);
         }}
         itemTextStyle={[styles.selectedTextStyle]}
         renderItem={renderItem && renderItem}
-       
       />
     </View>
   );

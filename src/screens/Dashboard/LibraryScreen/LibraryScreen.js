@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Text, View, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { BooksCardComponent, BooksListComponent, ClassDetailBox, CustomFlatList, EmptyComponent, Header, MainLayout, ModifiedOTPInput, SearchBar, SortAndFilter } from '../../../components';
@@ -26,11 +26,18 @@ const LibraryScreen = ({ navigation }) => {
   const [sortOrder, setSortOrder] = useState('A-Z');
   const [sortByDate, setSortByDate] = useState('newest');
 
+  const searchTimeoutRef = useRef(null); // Ref to store the debounce timeout
+
 
 
   const handleSearchChange = (text) => {
     setSearchValue(text);
-    // Handle additional logic if needed
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    searchTimeoutRef.current = setTimeout(() => {
+      filterAndSortData(selectedMember, sortByDate, text);
+    }, 300);
   };
 
   const handleToggleChange = (value) => {
@@ -70,26 +77,33 @@ const LibraryScreen = ({ navigation }) => {
 
 
   useEffect(() => {
-    filterAndSortData(selectedMember, sortByDate,);
+    filterAndSortData(selectedMember, sortByDate, searchValue);
   }, [selectedMember, sortByDate]);
 
 
-  const filterAndSortData = (memberId, dateOrder) => {
-    let filtered = filteredData.filter(_ => _.id !== 0)
+  const filterAndSortData = (memberId, dateOrder, searchQuery = '') => {
+    let filtered = DummyBooksData.filter(_ => _.id !== 0)
 
     // Filter based on memberId
     if (memberId !== 'all') {
       filtered = filtered.filter(item => item.member && item.member._id === memberId);
     }
 
-    // Sort by createdAt (Newest/Oldest)
+    // Search query
+    if (searchQuery.trim() !== '') {
+      filtered = filtered.filter(item =>
+        item.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
+      );
+    }
+
+    // sortBy Date
     const sortedByDate = filtered.sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
       return dateOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
 
-    setFilteredData([{id:0},...sortedByDate]);
+    setFilteredData([{ id: 0 }, ...sortedByDate]);
   };
 
   const handlePersonChange = (personId) => {
@@ -111,7 +125,7 @@ const LibraryScreen = ({ navigation }) => {
         return b?.title?.localeCompare(a?.title);
       }
     });
-    setFilteredData([{id:0},...sortedData])
+    setFilteredData([{ id: 0 }, ...sortedData])
   };
 
   const renderGridItem = ({ item, index }) => (
@@ -128,12 +142,13 @@ const LibraryScreen = ({ navigation }) => {
       />
   );
 
-  const renderListItem = ({ item }) => (
-    <BooksListComponent
-      imageSource={item.image}
-      title={item.title}
-      time={getRelativeTime(item.createdAt)}
-    />
+  const renderListItem = ({ item, index }) => (
+    index === 0 ? <></> :
+      <BooksListComponent
+        imageSource={item.image}
+        title={item.title}
+        time={getRelativeTime(item.createdAt)}
+      />
   );
 
   return (
@@ -173,7 +188,6 @@ const LibraryScreen = ({ navigation }) => {
                 onDateChange={handleDateChange}
                 onSortChange={handleSortChange}
               />
-
             </>
           }
           keyboardShouldPersistTaps={'handled'}
@@ -190,6 +204,4 @@ const LibraryScreen = ({ navigation }) => {
 }
 
 export default LibraryScreen;
-
-
 

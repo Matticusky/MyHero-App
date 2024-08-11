@@ -1,4 +1,4 @@
-import { Images } from "../assets";
+import { Icons, Images } from "../assets";
 
 export const UserTypes=[
     {
@@ -264,7 +264,7 @@ export const DummyBooksData = [
 
 
 export const membersData = [
-  { _id: 'all', name: 'All', image: Images.All_MEMBERS },
+  { _id: 'all', name: 'All', svg: Icons.AllMembers },
   { _id: '1', name: 'Markram', image: Images.MEMBER_1 },
   { _id: '2', name: 'John',image: Images.MEMBER_2 },
   { _id: '3', name: 'Alice',image: Images.MEMBER_3 },
