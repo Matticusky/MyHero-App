@@ -113,9 +113,12 @@ const ChangePassword = ({ navigation }) => {
 
   return (
     <MainLayout loader={loader}>
-      <Header title={"Change Password"} />
+      <Header title={"Change Password"} rightIcons={false} />
       <ScreenWrapper style={styles.cont}>
 
+        <View style={{marginVertical:UtilityMethods.wp(5),alignItems:'center'}}>
+          <Icons.lockIcon width={UtilityMethods.wp(20)} height={UtilityMethods.wp(20)} />
+        </View>
 
       <View style={styles.inPutCont}>
         <CustomizedInput

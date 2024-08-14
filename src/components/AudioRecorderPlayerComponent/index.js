@@ -4,9 +4,10 @@ import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import RNFS from 'react-native-fs';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import CryptoJS from 'crypto-js';
-// import WifiManager from 'react-nactive-wifi-reborn';
+// import WifiManager from 'react-native-wifi-reborn';
 import axios from 'axios';
 const audioRecorderPlayer = new AudioRecorderPlayer();
+import { FFmpegKit } from 'ffmpeg-kit-react-native';
 
 const checkPermissions = async () => {
   if (Platform.OS === 'android') {
@@ -38,6 +39,7 @@ const AudioRecorderPlayerComponent = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioFile, setAudioFile] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [wavFilePath, setWavFilePath] = useState(null);
 
   // const secretKey = '0123456789012345';
 
@@ -65,6 +67,24 @@ const AudioRecorderPlayerComponent = () => {
     console.log('Recording result: ', result);
   };
 
+  const convertToWav = async (inputPath) => {
+    const timestamp = Date.now();
+    const outputWavPath = inputPath.replace(/\.(m4a|mp4)$/, `_${timestamp}.wav`);
+    const command = `-i ${inputPath} ${outputWavPath}`;
+
+    const session = await FFmpegKit.execute(command);
+    const returnCode = await session.getReturnCode();
+  
+    if (returnCode.isValueSuccess()) {
+      console.log('Conversion to WAV successful');
+      setWavFilePath(outputWavPath); // Save the .wav file path
+      return outputWavPath;
+    } else {
+      console.log('Conversion failed');
+      return null;
+    }
+  };
+
   const stopRecording = async () => {
     if (!isRecording) {
       console.warn('Not recording!');
@@ -76,6 +96,8 @@ const AudioRecorderPlayerComponent = () => {
     audioRecorderPlayer.removeRecordBackListener();
     setAudioFile(result);
     console.log('Stop recording result: ', result);
+    const a = await convertToWav(result);
+    console.log(a,"hello")
   };
 
   const playRecording = async () => {
@@ -90,7 +112,7 @@ const AudioRecorderPlayerComponent = () => {
     }
 
     setIsPlaying(true);
-    const msg = await audioRecorderPlayer.startPlayer(audioFile);
+    const msg = await audioRecorderPlayer.startPlayer(wavFilePath);
     audioRecorderPlayer.addPlayBackListener((e) => {
       if (e.currentPosition === e.duration) {
         console.log('Finished playing');
@@ -203,13 +225,16 @@ const AudioRecorderPlayerComponent = () => {
 
   const sendFileToDevice = async (encryptedData, deviceIp) => {
     setLoader(true)
+    // console.log(wavFilePath,'I am audioFile')
+    // return
     try {
       const formData = new FormData();
       formData.append('file', {
         // uri: `data:application/octet-stream;base64,${encryptedData}`,
-        uri:`file:///${encryptedData}`,
-        name: `encrypted.mp3`,
-        type: 'audio/mpeg',
+        // uri:`file:///${encryptedData}`,
+        uri:`file:///${wavFilePath}`,
+        name: `sound_${Date.now()}.wav`,
+        type: 'audio/wav',
       });
       // console.log(`file:///${encryptedData}`,audioFile,'encryptedData')
       const response = await axios.post(`http://${deviceIp}/posts`, formData, {

@@ -31,6 +31,7 @@ import SearchBar from "./SearchBarComponent";
 import BooksCardComponent from "./BooksCardComponent";
 import BooksListComponent from "./BooksListComponent";
 import SortAndFilter from "./SortAndFilter";
+import SettingsCardComp from "./SettingsCardComp";
 
 
 
@@ -66,4 +67,5 @@ export {
     BooksCardComponent,
     BooksListComponent,
     SortAndFilter,
+    SettingsCardComp,
 }

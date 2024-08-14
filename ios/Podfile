@@ -14,7 +14,10 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
+
 target 'UmboBooks' do
+  pod 'ffmpeg-kit-react-native', :subspecs => ['audio'], :podspec => '../node_modules/ffmpeg-kit-react-native/ffmpeg-kit-react-native.podspec'
+
   config = use_native_modules!
 
   use_react_native!(
@@ -23,6 +26,7 @@ target 'UmboBooks' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
   pod 'RNFS', :path => '../node_modules/react-native-fs'
+
 
   target 'UmboBooksTests' do
     inherit! :complete

@@ -13,10 +13,10 @@ import ResetPassword from "./Auth/ResetPassword/ResetPassword";
  /// Dashboard Screens///
 
  import Home from "./Dashboard/Home/Home";
- import Attendance from "./Dashboard/Attendence/Attendence";
  import EditProfile from "./Dashboard/EditProfile/EditProfile";
  import LibraryScreen from "./Dashboard/LibraryScreen/LibraryScreen";
  import MyExchangeScreen from "./Dashboard/MyExchangeScreen/MyExchangeScreen";
+ import SettingsScreen from "./Dashboard/SettingsScreen/SettingsScreen";
  import Profile from "./Dashboard/Profile/Profile";
  import ChangePassword from "./Dashboard/ChangePassword/ChangePassword";
 
@@ -31,13 +31,13 @@ export {
   Home,
   Login,
   SignUp,
-  Attendance,
   EditProfile,
   OtpVerification,
   ForgetPassword,
   ResetPassword,
   LibraryScreen,
   MyExchangeScreen,
+  SettingsScreen,
   Profile,
   ChangePassword,
   NotificationScreen,

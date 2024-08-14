@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../redux/Reducers/AuthReducer';
 import axiosWrapper from '../../../services/AxiosWrapper';
 import { API_URLS } from '../../../services/apiPathList';
+import AlertService from '../../../services/AlertService';
 
 const EditProfile = ({ navigation }) => {
   const user = useSelector(state => state.auth.user);
@@ -121,34 +122,6 @@ const EditProfile = ({ navigation }) => {
       error["lastName"] = "Last Name is required";
     }
 
-    if (phoneNumber.value === "") {
-      setPhoneNumber({ ...phoneNumber, error: "Phone Number is required" });
-      error["phoneNumber"] = "Phone Number is required";
-    } else if (phoneNumber?.value?.length < 10) {
-      setPhoneNumber({ ...phoneNumber, error: "Phone Number is not correct" });
-      error["phoneNumber"] = "Phone Number is not correct";
-    }
-
-    if (address.value === "") {
-      setAddress({ ...address, error: "Address is required" });
-      error["address"] = "Address is required";
-    }
-
-    if (postalCode.value === "") {
-      setPostalCode({ ...postalCode, error: "Postal Code is required" });
-      error["postalCode"] = "Postal Code is required";
-    }
-
-    if (netId.value === "") {
-      setNetId({ ...netId, error: "NetID is required" });
-      error["netId"] = "NetID is required";
-    }
-
-    if (schoolName.value === "") {
-      setSchoolName({ ...schoolName, error: "School Name is required" });
-      error["schoolName"] = "School Name is required";
-    }
-
     if (profileImage.value === "") {
       setProfileImage({ ...profileImage, error: "Profile Image is required" });
       error["profileImage"] = "Profile Image is required";
@@ -157,7 +130,17 @@ const EditProfile = ({ navigation }) => {
     setError(error);
 
     if (Object.keys(error).length === 0) {
-      editUserProfile()
+      // editUserProfile()
+      const userData = {
+        ...user,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        profilePicture: profileImage.value,
+    };
+      
+      dispatch(setUser(userData));
+      AlertService.toastPrompt("Profile updated successfully...", 'success')
+      navigation.goBack()
     }
   };
 
@@ -208,7 +191,7 @@ const EditProfile = ({ navigation }) => {
 
   return (
     <MainLayout loader={loader}>
-      <Header title={"Edit Profile"} />
+      <Header title={"Edit Profile"} rightIcons={false}/>
       <ScreenWrapper style={styles.cont}>
         <ImagePicker
           filedInfo={profileImage}

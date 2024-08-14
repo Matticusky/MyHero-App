@@ -59,6 +59,15 @@ import Add from './Add.svg'
 import AZIcon from './AZIcon.svg'
 import AllMembers from './AllMembers.svg'
 import cardWhite from './cardWhite.svg'
+import personalInfo from './personalInfo.svg'
+import familyMembers from './familyMembers.svg'
+import passwords from './passwords.svg'
+import address from './address.svg'
+import doll from './doll.svg'
+import deleteIcon from './delete.svg'
+import logoutNew from './logoutNew.svg'
+import lockIcon from './lockIcon.svg'
+import EditIcon from './EditIcon.svg'
 
 
 
@@ -125,6 +134,15 @@ export default Icons = {
     AZIcon,
     AllMembers,
     cardWhite,
+    personalInfo,
+    familyMembers,
+    passwords,
+    address,
+    doll,
+    deleteIcon,
+    logoutNew,
+    lockIcon,
+    EditIcon,
 }
 
 

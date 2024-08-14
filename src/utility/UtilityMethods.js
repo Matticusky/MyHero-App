@@ -4,7 +4,6 @@ import { Alert, Dimensions, Linking, PixelRatio, Platform, Share } from 'react-n
 import { navigationRef } from '../../App';
 import ImagePicker from 'react-native-image-crop-picker';
 import moment from 'moment';
-import Geolocation from '@react-native-community/geolocation';
 import AlertService from '../services/AlertService';
 import { AlertWithTwoButtons } from '../components';
 
@@ -357,19 +356,7 @@ class UtilityMethodsClass {
     return unixUtcDate;
   };
 
-  getUserCurrentLocation = (callback) => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        callback(position);
-      },
-      (error) => {
-       AlertService.toastPrompt("Please Allow Your Location","error");
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
-  
-
-  }
+ 
 
 }
 

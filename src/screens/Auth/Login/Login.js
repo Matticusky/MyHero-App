@@ -92,7 +92,7 @@ const Login = ({ navigation, }) => {
         password: password.value,
         firstName:"John",
         lastName:"Doe",
-        profileImage:Constants.DummyPicture
+        profilePicture:Constants.DummyPicture
       }
       dispatch(setUser(user));
       dispatch(setToken('DUMMY_TOKEN'));

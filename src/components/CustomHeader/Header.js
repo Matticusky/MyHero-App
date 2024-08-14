@@ -23,7 +23,10 @@ const Header = ({
   const onPressNotificaiton = () => {
     // navigation.navigate(Routes.NOTIFICATION_SCREEN)
   }
-
+  const onPressSettings = () =>{
+    navigation.navigate(Routes.SettingsScreen)
+  }
+ 
   return (
     <View style={styles.headerCont}>
       <View style={CommonStyles.ROW_VIEW}>
@@ -70,7 +73,7 @@ const Header = ({
             <TouchableOpacity onPress={onPressNotificaiton}>
               <NotificationsIcon />
             </TouchableOpacity>
-            <TouchableOpacity onPress={onPressNotificaiton}>
+            <TouchableOpacity onPress={onPressSettings}>
               <Icons.settings
                 width={UtilityMethods.wp(6)}
                 height={UtilityMethods.wp(6)}
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
     ...CommonStyles.PADDING_HORIZONTAL,
   },
   icon: {
-    width: UtilityMethods.wp(12),
+    width: UtilityMethods.wp(10),
   },
   headerText: {
     color: Colors.ICON_BLACK,

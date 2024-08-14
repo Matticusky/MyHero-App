@@ -21,13 +21,7 @@ import { AudioRecorderPlayerComponent } from './src/components'
 
 export const navigationRef = createNavigationContainerRef();
 
-
-
-
-
 const App = () => {
-
-
   return (
     <ToastProvider
       offsetTop={40}
