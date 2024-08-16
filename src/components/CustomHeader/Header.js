@@ -44,7 +44,7 @@ const Header = ({
             style={styles.icon}
             onPress={() => navigation.goBack()}
           >
-            <Icon name="arrow-back" size={25} color={
+            <Icon name="arrow-back" size={UtilityMethods.wp(7)} color={
               Colors.ICON_BLACK
             } />
 

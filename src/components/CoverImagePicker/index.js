@@ -38,7 +38,7 @@ const CoverImagePicker = ({ coverImage, setCoverImage }) => {
     return filePath.split('/').pop();
   };
 
-  console.log(coverImage,"coverImage")
+  
   return (
     <View style={styles.container}>
       <View style={styles.uploadButton} >
@@ -71,7 +71,7 @@ export default CoverImagePicker
 
 const styles = StyleSheet.create({
   container: {
-
+    paddingTop:UtilityMethods.hp(1)
   },
   uploadButton: {
     paddingTop: UtilityMethods.hp(4),
@@ -111,6 +111,6 @@ const styles = StyleSheet.create({
     justifyContent:'space-evenly',
     alignItems:'center',
     backgroundColor:'rgba(0,0,0,0.1)',
-    zIndex:2
+    zIndex:2,
   },
 })

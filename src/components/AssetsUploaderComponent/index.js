@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: UtilityMethods.wp(4),
+        paddingVertical: UtilityMethods.wp(4),
         borderWidth: 1,
         borderColor: Colors.BLACK,
         borderStyle: 'dashed',
