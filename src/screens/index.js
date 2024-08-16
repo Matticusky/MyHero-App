@@ -10,19 +10,26 @@ import ForgetPassword from "./Auth/ForgetPassword/ForgetPassword";
 import ResetPassword from "./Auth/ResetPassword/ResetPassword";
 
 
- /// Dashboard Screens///
+/// Dashboard Screens///
 
- import Home from "./Dashboard/Home/Home";
- import EditProfile from "./Dashboard/EditProfile/EditProfile";
- import LibraryScreen from "./Dashboard/LibraryScreen/LibraryScreen";
- import MyExchangeScreen from "./Dashboard/MyExchangeScreen/MyExchangeScreen";
- import SettingsScreen from "./Dashboard/SettingsScreen/SettingsScreen";
- import Profile from "./Dashboard/Profile/Profile";
- import ChangePassword from "./Dashboard/ChangePassword/ChangePassword";
+import Home from "./Dashboard/Home/Home";
+import EditProfile from "./Dashboard/EditProfile/EditProfile";
+import LibraryScreen from "./Dashboard/LibraryScreen/LibraryScreen";
+import MyExchangeScreen from "./Dashboard/MyExchangeScreen/MyExchangeScreen";
+import SettingsScreen from "./Dashboard/SettingsScreen/SettingsScreen";
+import Profile from "./Dashboard/Profile/Profile";
+import ChangePassword from "./Dashboard/ChangePassword/ChangePassword";
+import AddressListScreen from "./Dashboard/AddressListScreen/AddressListScreen";
+import AddAddressScreen from "./Dashboard/AddAddressScreen/AddAddressScreen";
+import ConnectWithDollScreen from "./Dashboard/ConnectWithDollScreen/ConnectWithDollScreen";
+import FamilyMembersTabScreen from "./Dashboard/FamilyMembersTabScreen/FamilyMembersTabScreen";
+import FamilyMembersStatusScreen from "./Dashboard/FamilyMembersStatusScreen/FamilyMembersStatusScreen";
+import AddMembersScreen from "./Dashboard/AddMembersScreen/AddMembersScreen";
+import AddNewBook from "./Dashboard/AddNewBook/AddNewBook";
 
-  // TERMS AND CONDITIONS
-  import TermsAndConditions from "./TermsAndConditions/TermsAndConditions"
-  import PrivacyPolicy from "./PrivacyPolicy/PrivacyPolicy"
+// TERMS AND CONDITIONS
+import TermsAndConditions from "./TermsAndConditions/TermsAndConditions"
+import PrivacyPolicy from "./PrivacyPolicy/PrivacyPolicy"
 
 
 export {
@@ -42,6 +49,12 @@ export {
   ChangePassword,
   NotificationScreen,
   TermsAndConditions,
-
+  AddressListScreen,
   PrivacyPolicy,
+  AddAddressScreen,
+  ConnectWithDollScreen,
+  FamilyMembersTabScreen,
+  FamilyMembersStatusScreen,
+  AddMembersScreen,
+  AddNewBook,
 };

@@ -31,7 +31,7 @@ const SettingsScreen = ({ navigation }) => {
 
     const handleNavigation = (path) => {
         navigation.navigate(path);
-      }
+    }
 
     return (
         <MainLayout loader={loader}>
@@ -65,7 +65,7 @@ const SettingsScreen = ({ navigation }) => {
                     icon={<Icons.familyMembers width={UtilityMethods.wp(7)} height={UtilityMethods.wp(7)} />} // Replace with the correct icon component
                     title="Family Members"
                     description="Manage your family member’s"
-                    onPress={() => console.log('Personal information pressed')}
+                    onPress={() => handleNavigation(Routes.FamilyMembersTabScreen)}
                 />
 
 
@@ -81,7 +81,7 @@ const SettingsScreen = ({ navigation }) => {
                     icon={<Icons.address width={UtilityMethods.wp(7)} height={UtilityMethods.wp(7)} />} // Replace with the correct icon component
                     title="Address"
                     description="Edit your address"
-                    onPress={() => console.log('Personal information pressed')}
+                    onPress={() => handleNavigation(Routes.AddressListScreen)}
                 />
 
 
@@ -89,7 +89,7 @@ const SettingsScreen = ({ navigation }) => {
                     icon={<Icons.doll width={UtilityMethods.wp(7)} height={UtilityMethods.wp(7)} />} // Replace with the correct icon component
                     title="Connect With Doll"
                     description="Know how to connected with the doll"
-                    onPress={() => console.log('Personal information pressed')}
+                    onPress={() => handleNavigation(Routes.ConnectWithDollScreen)}
                 />
 
 
@@ -101,7 +101,6 @@ const SettingsScreen = ({ navigation }) => {
                     descriptionStyle={{ color: Colors.RED }}
                     onPress={() => console.log('Personal information pressed')}
                 />
-
 
                 <SettingsCardComp
                     icon={<Icons.logoutNew width={UtilityMethods.wp(7)} height={UtilityMethods.wp(7)} />} // Replace with the correct icon component

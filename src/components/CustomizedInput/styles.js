@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   container: (isInValidField) => ({
     margin: 0,
   
-   borderWidth: 1,
+    borderWidth: 1,
     borderRadius: UtilityMethods.wp(6),
     backgroundColor: Colors.WHITE,
     flexDirection: 'row',

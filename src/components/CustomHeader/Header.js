@@ -62,7 +62,7 @@ const Header = ({
       </View>
 
       {rightcontent &&
-        <View>
+        <View style={styles.rightcontent}>
           {rightcontent}
         </View>
       }
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
 
   headerCont: {
     width: "100%",
-    // height: UtilityMethods.hp(8),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -113,6 +112,12 @@ const styles = StyleSheet.create({
     color: Colors.ICON_BLACK,
     fontSize: FontSize.VALUE(18),
     fontFamily: Fonts.SEMI_BOLD,
+  },
+  rightcontent:{
+    flex:1,
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent:'flex-end',
   },
   rightIcons: {
     flexDirection: "row",

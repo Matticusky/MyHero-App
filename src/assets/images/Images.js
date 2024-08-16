@@ -14,5 +14,7 @@ const Images = {
     MEMBER_1: require('./member1.png'),
     MEMBER_2: require('./member2.png'),
     MEMBER_3: require('./member3.png'),
+    DOLL_IMAGES: require('./dollImages.png'),
+
 };
 export default Images;

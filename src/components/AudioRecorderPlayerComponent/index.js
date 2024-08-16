@@ -232,7 +232,8 @@ const AudioRecorderPlayerComponent = () => {
       formData.append('file', {
         // uri: `data:application/octet-stream;base64,${encryptedData}`,
         // uri:`file:///${encryptedData}`,
-        uri:`file:///${wavFilePath}`,
+        // uri:`file:///${wavFilePath}`,
+        uri:`${wavFilePath}`,
         name: `sound_${Date.now()}.wav`,
         type: 'audio/wav',
       });

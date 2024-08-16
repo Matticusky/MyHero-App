@@ -63,11 +63,16 @@ import personalInfo from './personalInfo.svg'
 import familyMembers from './familyMembers.svg'
 import passwords from './passwords.svg'
 import address from './address.svg'
+import address2 from './address2.svg'
 import doll from './doll.svg'
 import deleteIcon from './delete.svg'
 import logoutNew from './logoutNew.svg'
 import lockIcon from './lockIcon.svg'
 import EditIcon from './EditIcon.svg'
+import PhoneIcon from './phoneIcon.svg'
+import UploadIcon from './upload-icon.svg'
+import PlayIcon from './play_icon.svg'
+import RemoveIcon from './remove-icon.svg'
 
 
 
@@ -138,11 +143,16 @@ export default Icons = {
     familyMembers,
     passwords,
     address,
+    address2,
     doll,
     deleteIcon,
     logoutNew,
     lockIcon,
     EditIcon,
+    PhoneIcon,
+    UploadIcon,
+    PlayIcon,
+    RemoveIcon,
 }
 
 

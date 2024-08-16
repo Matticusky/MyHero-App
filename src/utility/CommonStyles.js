@@ -101,6 +101,17 @@ const CommonStyles = StyleSheet.create({
     height: UtilityMethods.hp(5),
     resizeMode: "contain",
   },
+  Shadow:{
+    borderRadius:UtilityMethods.wp(6),
+    shadowColor: Colors.BLACK,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.12,
+    shadowRadius: 2,
+    elevation: 2,
+    marginVertical: UtilityMethods.hp(0.7),
+    borderColor:Colors.LIGHT_GRAY,
+    borderWidth:0.5,
+  }
 });
 
 export default CommonStyles;

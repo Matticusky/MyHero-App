@@ -32,6 +32,8 @@ import BooksCardComponent from "./BooksCardComponent";
 import BooksListComponent from "./BooksListComponent";
 import SortAndFilter from "./SortAndFilter";
 import SettingsCardComp from "./SettingsCardComp";
+import AddressCardComp from "./AddressCardComp";
+import AssetsUploaderComponent from "./AssetsUploaderComponent";
 
 
 
@@ -68,4 +70,6 @@ export {
     BooksListComponent,
     SortAndFilter,
     SettingsCardComp,
+    AddressCardComp,
+    AssetsUploaderComponent,
 }

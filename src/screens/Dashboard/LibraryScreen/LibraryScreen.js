@@ -132,7 +132,7 @@ const LibraryScreen = ({ navigation }) => {
     index === 0 ?
       <BooksCardComponent
         isAddButton={true}
-        onPress={() => { }}
+        onPress={() => navigation.navigate(Routes.AddNewBook)}
       />
       :
       <BooksCardComponent

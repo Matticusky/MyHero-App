@@ -1,17 +1,17 @@
 import { Icons, Images } from "../assets";
 
-export const UserTypes=[
-    {
-        id:1,
-        name:'Student',
+export const UserTypes = [
+  {
+    id: 1,
+    name: 'Student',
 
-    },
-    {
-        id:2,
-        name:'Instructor',
+  },
+  {
+    id: 2,
+    name: 'Instructor',
 
-    },
-    
+  },
+
 
 ]
 
@@ -33,18 +33,18 @@ export const attendanceData = [
 
 export const attendanceListData = [
   {
-      name: 'John Doe',
-      netId: 'XYZ',
-      status: 'Present',
-      dateTime: 'Dec 28, 2024, 8:25 PM',
-      location: 'Harvard, New York',
+    name: 'John Doe',
+    netId: 'XYZ',
+    status: 'Present',
+    dateTime: 'Dec 28, 2024, 8:25 PM',
+    location: 'Harvard, New York',
   },
   {
-      name: 'Jane Smith',
-      netId: 'ABC',
-      status: 'Absent',
-      dateTime: 'Jan 10, 2025, 10:30 AM',
-      location: 'Stanford, California',
+    name: 'Jane Smith',
+    netId: 'ABC',
+    status: 'Absent',
+    dateTime: 'Jan 10, 2025, 10:30 AM',
+    location: 'Stanford, California',
   },
 ];
 
@@ -54,21 +54,21 @@ export const dummyExcuseData = [
     "name": "FYP",
     "semester": 1,
     "schedule": {
-        "date": "2024-07-25T00:00:00.000Z",
-        "startTime": "17:03",
-        "endTime": "18:03",
-        "_id": "669e3d97bc7054a17312a6e2"
+      "date": "2024-07-25T00:00:00.000Z",
+      "startTime": "17:03",
+      "endTime": "18:03",
+      "_id": "669e3d97bc7054a17312a6e2"
     },
-    "createdBy":"Abdul Basit",
+    "createdBy": "Abdul Basit",
     "geoTracking": "disable",
     "excusedAbsenceAllowance": 2,
     "enrolledStudents": [
-        "669e3c4a7b6d2e298db17884",
-        "669e3c1f6304f2fb428bfa5d",
-        "669e3c37343c808d5dfe0526"
+      "669e3c4a7b6d2e298db17884",
+      "669e3c1f6304f2fb428bfa5d",
+      "669e3c37343c808d5dfe0526"
     ],
     "__v": 0
-},
+  },
 ]
 
 
@@ -78,61 +78,61 @@ export const particularDatesdummyExcuseData = [
     "name": "Advanced Data Structures & Algorithm Analysis",
     "semester": 1,
     "schedule": {
-        "date": "2024-07-25T00:00:00.000Z",
-        "startTime": "17:03",
-        "endTime": "18:03",
-        "_id": "669e3d97bc7054a17312a6e2"
+      "date": "2024-07-25T00:00:00.000Z",
+      "startTime": "17:03",
+      "endTime": "18:03",
+      "_id": "669e3d97bc7054a17312a6e2"
     },
-    "createdBy":"Abdul Basit",
+    "createdBy": "Abdul Basit",
     "geoTracking": "disable",
     "excusedAbsenceAllowance": 2,
     "enrolledStudents": [
-        "669e3c4a7b6d2e298db17884",
-        "669e3c1f6304f2fb428bfa5d",
-        "669e3c37343c808d5dfe0526"
+      "669e3c4a7b6d2e298db17884",
+      "669e3c1f6304f2fb428bfa5d",
+      "669e3c37343c808d5dfe0526"
     ],
     "__v": 0
-},
-{
-  "_id": "669e3c8bc37c5c9fd452b6e3",
-  "name": "FYP",
-  "semester": 1,
-  "schedule": {
+  },
+  {
+    "_id": "669e3c8bc37c5c9fd452b6e3",
+    "name": "FYP",
+    "semester": 1,
+    "schedule": {
       "date": "2024-07-25T00:00:00.000Z",
       "startTime": "17:03",
       "endTime": "18:03",
       "_id": "669e3d97bc7054a17312a6e2"
-  },
-  "createdBy":"Abdul Basit",
-  "geoTracking": "disable",
-  "excusedAbsenceAllowance": 2,
-  "enrolledStudents": [
+    },
+    "createdBy": "Abdul Basit",
+    "geoTracking": "disable",
+    "excusedAbsenceAllowance": 2,
+    "enrolledStudents": [
       "669e3c4a7b6d2e298db17884",
       "669e3c1f6304f2fb428bfa5d",
       "669e3c37343c808d5dfe0526"
-  ],
-  "__v": 0
-},
-{
-  "_id": "669e3c8bc37c5c9fd452b6e4",
-  "name": "FYP final year",
-  "semester": 1,
-  "schedule": {
+    ],
+    "__v": 0
+  },
+  {
+    "_id": "669e3c8bc37c5c9fd452b6e4",
+    "name": "FYP final year",
+    "semester": 1,
+    "schedule": {
       "date": "2024-07-25T00:00:00.000Z",
       "startTime": "17:03",
       "endTime": "18:03",
       "_id": "669e3d97bc7054a17312a6e2"
-  },
-  "createdBy":"Abdul Basit",
-  "geoTracking": "disable",
-  "excusedAbsenceAllowance": 2,
-  "enrolledStudents": [
+    },
+    "createdBy": "Abdul Basit",
+    "geoTracking": "disable",
+    "excusedAbsenceAllowance": 2,
+    "enrolledStudents": [
       "669e3c4a7b6d2e298db17884",
       "669e3c1f6304f2fb428bfa5d",
       "669e3c37343c808d5dfe0526"
-  ],
-  "__v": 0
-},
+    ],
+    "__v": 0
+  },
 ]
 
 
@@ -165,9 +165,9 @@ export const CACHE_CLEAR_INTERVAL = 86400000;
 
 
 export const DummyBooksData = [
- {
-  "id":0,
- },
+  {
+    "id": 0,
+  },
   {
     "id": 1,
     "title": "The Magical Adventures of Sunny the Squirrel",
@@ -230,47 +230,121 @@ export const DummyBooksData = [
 export const membersData = [
   { _id: 'all', name: 'All', svg: Icons.AllMembers },
   { _id: '1', name: 'Markram', image: Images.MEMBER_1 },
-  { _id: '2', name: 'John',image: Images.MEMBER_2 },
-  { _id: '3', name: 'Alice',image: Images.MEMBER_3 },
+  { _id: '2', name: 'John', image: Images.MEMBER_2 },
+  { _id: '3', name: 'Alice', image: Images.MEMBER_3 },
 ];
 
 
 
 export const PhysicalBooks = [
-   {
-     "id": 1,
-     "title": "The Magical Adventures of Sunny the Squirrel",
-     'image': Images.BOOK_1,
-     'createdAt': new Date('2024-08-08T10:00:00Z'),
-     'member': { _id: '1', name: 'Markram' }
-   },
-   {
-     "id": 2,
-     "title": "The Enchanted Forest",
-     'image': Images.BOOK_2,
-     'createdAt': new Date('2024-08-05T14:30:00Z'),
-     'member': { _id: '2', name: 'John' }
-   },
-   {
-     "id": 3,
-     "title": "Journey to the Moonlit Meadow",
-     'image': Images.BOOK_3,
-     'createdAt': new Date('2024-07-15T09:00:00Z'),
-     'member': { _id: '1', name: 'Markram' }
-   },
-   {
-     "id": 4,
-     "title": "Mysteries of the Deep Sea",
-     'image': Images.BOOK_2,
-     'createdAt': new Date('2024-07-01T12:00:00Z'),
-     'member': { _id: '3', name: 'Alice' }
-   },
-   {
-     "id": 5,
-     "title": "The Lost Treasure of Pirate Cove",
-     'image': Images.BOOK_1,
-     'createdAt': new Date('2024-08-09T08:00:00Z'),
-     'member': { _id: '2', name: 'John' }
-   },
- 
- ];
+  {
+    "id": 1,
+    "title": "The Magical Adventures of Sunny the Squirrel",
+    'image': Images.BOOK_1,
+    'createdAt': new Date('2024-08-08T10:00:00Z'),
+    'member': { _id: '1', name: 'Markram' }
+  },
+  {
+    "id": 2,
+    "title": "The Enchanted Forest",
+    'image': Images.BOOK_2,
+    'createdAt': new Date('2024-08-05T14:30:00Z'),
+    'member': { _id: '2', name: 'John' }
+  },
+  {
+    "id": 3,
+    "title": "Journey to the Moonlit Meadow",
+    'image': Images.BOOK_3,
+    'createdAt': new Date('2024-07-15T09:00:00Z'),
+    'member': { _id: '1', name: 'Markram' }
+  },
+  {
+    "id": 4,
+    "title": "Mysteries of the Deep Sea",
+    'image': Images.BOOK_2,
+    'createdAt': new Date('2024-07-01T12:00:00Z'),
+    'member': { _id: '3', name: 'Alice' }
+  },
+  {
+    "id": 5,
+    "title": "The Lost Treasure of Pirate Cove",
+    'image': Images.BOOK_1,
+    'createdAt': new Date('2024-08-09T08:00:00Z'),
+    'member': { _id: '2', name: 'John' }
+  },
+
+];
+
+
+
+export const dummyAddresses = [
+  {
+    id: '1',
+    title: 'Home',
+    address: '123 Main St, Springfield, IL\nApt 4B',
+    locationIcon: <Icons.address width={24} height={24} />,
+    editIcon: <Icons.EditIcon width={24} height={24} />,
+  },
+  {
+    id: '2',
+    title: 'Work',
+    address: '456 Market St, Metropolis, IL\nSuite 300',
+    locationIcon: <Icons.address width={24} height={24} />,
+    editIcon: <Icons.EditIcon width={24} height={24} />,
+  },
+  {
+    id: '3',
+    title: 'Gym',
+    address: '789 Broadway St, Gotham, NY\nFloor 1',
+    locationIcon: <Icons.address width={24} height={24} />,
+    editIcon: <Icons.EditIcon width={24} height={24} />,
+  },
+
+];
+
+
+
+export const membersDataList = [
+  {
+    id: '1',
+    name: 'Markram',
+    email: 'markram555@gmail.com',
+    status: 'Connected',
+    imageSource: Images.MEMBER_1, // Replace with actual image path
+  },
+  {
+    id: '2',
+    name: 'Alice',
+    email: 'alice123@gmail.com',
+    status: 'Pending',
+    imageSource: Images.MEMBER_1, // Replace with actual image path
+  },
+  {
+    id: '3',
+    name: 'John',
+    email: 'john_doe@gmail.com',
+    status: 'Disconnected',
+    imageSource: Images.MEMBER_1, // Replace with actual image path
+  },
+  {
+    id: '4',
+    name: 'Emily',
+    email: 'emily_roberts@gmail.com',
+    status: 'Connected',
+    imageSource: Images.MEMBER_2, // Replace with actual image path
+  },
+  {
+    id: '5',
+    name: 'David',
+    email: 'david_wilson@gmail.com',
+    status: 'Pending',
+    imageSource: Images.MEMBER_3, // Replace with actual image path
+  },
+  {
+    id: '6',
+    name: 'Mark',
+    email: 'mark_wilson@gmail.com',
+    status: 'Connected',
+    imageSource: Images.MEMBER_3, // Replace with actual image path
+  },
+];

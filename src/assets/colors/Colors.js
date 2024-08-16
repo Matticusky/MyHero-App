@@ -16,7 +16,8 @@ const Colors = {
   LINK:'#476BE3',
   ReadNotification:'#F9F9F9',
   UnReadNotification:'#ECECEC',
-  
+  Pending:'#E7C04E',
+
   TransParentBackground: "rgba(0, 0, 0, 0.5)",
   TransParentBackground1: "rgba(0, 0, 0, 0.5)",
   PRIMARY: "#FFF203",

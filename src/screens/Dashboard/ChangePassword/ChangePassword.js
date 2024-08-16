@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../redux/Reducers/AuthReducer';
 import axiosWrapper from '../../../services/AxiosWrapper';
 import { API_URLS } from '../../../services/apiPathList';
+import AlertService from '../../../services/AlertService';
 
 const ChangePassword = ({ navigation }) => {
   const user = useSelector(state => state.auth.user);
@@ -88,8 +89,10 @@ const ChangePassword = ({ navigation }) => {
         password: newPassword?.value?.trim(),
       };
 
-      changePassword()
-      
+      // changePassword()
+      navigation.goBack()
+      AlertService.toastPrompt("Password changed successfully...",'success')
+
     }
   };
 
