@@ -8,7 +8,6 @@ const LogoutModal = ({ visible, onConfirm, onCancel }) => {
     <Modal
       transparent={true}
       visible={visible}
-    //   animationType="fadeIn"
       onRequestClose={onCancel}
     >
       <View style={styles.overlay}>

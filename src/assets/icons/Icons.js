@@ -73,6 +73,10 @@ import PhoneIcon from './phoneIcon.svg'
 import UploadIcon from './upload-icon.svg'
 import PlayIcon from './play_icon.svg'
 import RemoveIcon from './remove-icon.svg'
+import CameraIcon from './camera.svg'
+import GalleryIcon from './galleryIcon.svg'
+import BookIcon from './books.svg'
+
 
 
 
@@ -153,6 +157,9 @@ export default Icons = {
     UploadIcon,
     PlayIcon,
     RemoveIcon,
+    CameraIcon,
+    GalleryIcon,
+    BookIcon,
 }
 
 

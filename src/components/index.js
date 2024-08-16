@@ -34,6 +34,7 @@ import SortAndFilter from "./SortAndFilter";
 import SettingsCardComp from "./SettingsCardComp";
 import AddressCardComp from "./AddressCardComp";
 import AssetsUploaderComponent from "./AssetsUploaderComponent";
+import CoverImagePicker from "./CoverImagePicker";
 
 
 
@@ -72,4 +73,5 @@ export {
     SettingsCardComp,
     AddressCardComp,
     AssetsUploaderComponent,
+    CoverImagePicker,
 }
