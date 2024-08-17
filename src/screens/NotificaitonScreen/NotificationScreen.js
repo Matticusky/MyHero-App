@@ -1,73 +1,62 @@
 // NotificationsScreen.js
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Platform } from 'react-native';
-import { Button, MainLayout, NotificationCard, ScreenWrapper } from '../../components';
+import { Button, Header, MainLayout, NotificationCard, ScreenWrapper } from '../../components';
 import { Colors, Fonts, Icons } from '../../assets';
 import { UtilityMethods, FontSize } from '../../utility';
-import { notifications } from '../../Data/DummyData';
+import { notificationData, notifications } from '../../Data/DummyData';
+import Routes from '../../navigation/Routes';
 
 
-const NotificationsScreen = ({ navigation }) => {
+const NotificationsScreen = ({ navigation, route }) => {
+
+  const isFamilyMember = route?.params?.isFamilyMember
+
+  const RenderRightContent = () => {
+    return (
+      <Button
+        text={"Add"}
+        style={styles.changePassowrd}
+        textStyle={styles.changePassowrdText}
+        onPress={() => { navigation.navigate(Routes.AddMembersScreen) }}
+      />
+    )
+  }
+
+
+
   return (
     <MainLayout>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Notifications</Text>
-        <TouchableOpacity>
-          <Text style={styles.markAllRead}>Mark all as read</Text>
-        </TouchableOpacity>
-      </View>
+      <Header title={isFamilyMember ? "Family members" : "Notificaitons" }
+        showBackButton={true}
+        DrawerHeader={false}
+        rightIcons={false}
+        rightcontent={isFamilyMember && <RenderRightContent />}
+      />
 
-        <FlatList
-          data={notifications}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <NotificationCard notification={item} />}
-          contentContainerStyle={styles.flatListContent}
-        />
+      <FlatList
+        data={notificationData}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <NotificationCard item={item} />}
+        contentContainerStyle={styles.listContainer}
+      />
 
-        <Button
-          text={"Back to Home"}
-          LeftIcon={<Icons.ArrowBack />}
-          style={styles.button}
-          textStyle={styles.textStyle}
-          onPress={() => navigation.goBack()}
-        />
     </MainLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: UtilityMethods.hp(2),
-    backgroundColor: Colors.WHITE,
-  },
-  headerTitle: {
-    fontSize: FontSize.VALUE(18),
-    fontFamily: Fonts.BOLD,
-    color: Colors.BLACK,
-  },
-  markAllRead: {
-    fontSize: FontSize.VALUE(14),
-    fontFamily: Fonts.REGULAR,
-    color: Colors.BLACK,
-  },
-  flatListContent: {
+  
+  listContainer: {
+    paddingVertical: UtilityMethods.hp(2),
     paddingHorizontal: UtilityMethods.wp(4),
   },
-  button: {
-    marginTop: UtilityMethods.hp(2),
-    paddingHorizontal:UtilityMethods.wp(4),
-    backgroundColor:Colors.WHITE,
-    alignSelf:'center',
-    borderColor:Colors.BLACK,
-    borderWidth:1,
-    width:'86%',
-    marginBottom: Platform.OS === 'android' ?  UtilityMethods.hp(2) : null,
+  changePassowrd: {
+    width: UtilityMethods.wp(24),
+    height: UtilityMethods.hp(4),
   },
-  textStyle:{
-    color:Colors.BLACK
+  changePassowrdText: {
+    fontSize: FontSize.VALUE(12)
   }
 });
 

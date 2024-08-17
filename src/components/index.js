@@ -35,6 +35,8 @@ import SettingsCardComp from "./SettingsCardComp";
 import AddressCardComp from "./AddressCardComp";
 import AssetsUploaderComponent from "./AssetsUploaderComponent";
 import CoverImagePicker from "./CoverImagePicker";
+import AudioPlayComponent from "./AudioPlayComponent";
+import MaterialDropDown from "./MaterialDropDown";
 
 
 
@@ -74,4 +76,6 @@ export {
     AddressCardComp,
     AssetsUploaderComponent,
     CoverImagePicker,
+    AudioPlayComponent,
+    MaterialDropDown,
 }

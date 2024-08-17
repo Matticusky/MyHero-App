@@ -26,6 +26,8 @@ import FamilyMembersTabScreen from "./Dashboard/FamilyMembersTabScreen/FamilyMem
 import FamilyMembersStatusScreen from "./Dashboard/FamilyMembersStatusScreen/FamilyMembersStatusScreen";
 import AddMembersScreen from "./Dashboard/AddMembersScreen/AddMembersScreen";
 import AddNewBook from "./Dashboard/AddNewBook/AddNewBook";
+import PurchaseCreditScreen from "./Dashboard/PurchaseCreditScreen/PurchaseCreditScreen";
+import BookPreviewScreen from "./Dashboard/BookPreviewScreen/BookPreviewScreen";
 
 // TERMS AND CONDITIONS
 import TermsAndConditions from "./TermsAndConditions/TermsAndConditions"
@@ -57,4 +59,6 @@ export {
   FamilyMembersStatusScreen,
   AddMembersScreen,
   AddNewBook,
+  PurchaseCreditScreen,
+  BookPreviewScreen,
 };

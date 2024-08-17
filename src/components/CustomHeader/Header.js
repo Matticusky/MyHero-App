@@ -21,7 +21,7 @@ const Header = ({
   const navigation = useNavigation();
 
   const onPressNotificaiton = () => {
-    // navigation.navigate(Routes.NOTIFICATION_SCREEN)
+    navigation.navigate(Routes.NOTIFICATION_SCREEN)
   }
   const onPressSettings = () =>{
     navigation.navigate(Routes.SettingsScreen)

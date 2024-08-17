@@ -1,4 +1,5 @@
 import { Icons, Images } from "../assets";
+import { UtilityMethods } from "../utility";
 
 export const UserTypes = [
   {
@@ -346,5 +347,51 @@ export const membersDataList = [
     email: 'mark_wilson@gmail.com',
     status: 'Connected',
     imageSource: Images.MEMBER_3, // Replace with actual image path
+  },
+];
+
+
+
+export const notificationData = [
+  {
+    id: '1',
+    name: 'Markram',
+    avatar: 'https://via.placeholder.com/150', // Replace with actual image URL or use a local image
+  },
+  {
+    id: '2',
+    name: 'John Doe',
+    avatar: 'https://via.placeholder.com/150',
+  },
+  {
+    id: '3',
+    name: 'Jane Smith',
+    avatar: 'https://via.placeholder.com/150',
+  },
+];
+
+
+
+export const audioData = [
+  {
+    id: '1',
+    user: { name: 'Markram', avatar: Images.MEMBER_1 },
+    audioUri: 'https://file-examples.com/storage/fe519944ff66ba53b99c446/2017/11/file_example_MP3_700KB.mp3',
+    duration: 120000, // Example duration in milliseconds
+  },
+  // Add more audio data here
+];
+
+
+export const menu = [
+  {
+    label: "Save",
+    value: "save",
+    icon : <Icons.DownloadIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+  },
+  {
+    label: "Delete",
+    value: "delete",
+    icon : <Icons.DeleteBlackIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
   },
 ];

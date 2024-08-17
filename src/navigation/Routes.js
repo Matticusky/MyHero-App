@@ -34,6 +34,8 @@ const Routes = {
   FamilyMembersStatusScreen:'FamilyMembersStatusScreen',
   AddMembersScreen:"AddMembersScreen",
   AddNewBook:"AddNewBook",
+  PurchaseCreditScreen:"PurchaseCreditScreen",
+  BookPreviewScreen:"BookPreviewScreen",
   BOTTOM_TAB:"BottomTab",
   DRAWER_NAVIGATOR:"DrawerNavigator",
   CHANGE_PASSWORD:'CHANGE_PASSWORD',  

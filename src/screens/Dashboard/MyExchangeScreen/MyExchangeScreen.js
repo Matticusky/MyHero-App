@@ -118,6 +118,7 @@ const MyExchangeScreen = ({ navigation }) => {
           key={subIndex}
           imageSource={subItem.image}
           title={subItem.title}
+          isPaid={true}
           onPress={() => { }}
         />
       ))}
@@ -192,6 +193,7 @@ const MyExchangeScreen = ({ navigation }) => {
           <Button
             text="Purchase Credits"
             LeftIcon={<Icons.cardWhite/>}
+            onPress={()=>{ navigation.navigate(Routes.PurchaseCreditScreen)}}
           />
         </View>
 

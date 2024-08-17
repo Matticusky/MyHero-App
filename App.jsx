@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persister } from './src/redux/Store';
 import { StatusBar } from 'react-native';
-
+import { PaperProvider } from 'react-native-paper';
 //================================ Local Imported Files ======================================//
 
 import RootStack from './src/navigation/RootStack';
@@ -29,9 +29,12 @@ const App = () => {
       <Provider store={store}>
         <PersistGate persistor={persister}>
           <NavigationContainer ref={navigationRef}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
+           <GestureHandlerRootView>
+            <PaperProvider>
+
               <StatusBar backgroundColor="#fff" barStyle="dark-content" />
               <RootStack />
+           </PaperProvider>
 
             </GestureHandlerRootView>
           </NavigationContainer>

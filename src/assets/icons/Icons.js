@@ -76,6 +76,12 @@ import RemoveIcon from './remove-icon.svg'
 import CameraIcon from './camera.svg'
 import GalleryIcon from './galleryIcon.svg'
 import BookIcon from './books.svg'
+import CrownIcon from './crown.svg'
+import PlayAudio from './playAudio.svg'
+import PauseAudio from './pauseAudio.svg'
+import DotIcon from './dotIcons.svg'
+import DownloadIcon from './downloadIcon.svg'
+import DeleteBlackIcon from './deleteBlackIcon.svg'
 
 
 
@@ -160,6 +166,12 @@ export default Icons = {
     CameraIcon,
     GalleryIcon,
     BookIcon,
+    CrownIcon,
+    PlayAudio,
+    PauseAudio,
+    DotIcon,
+    DownloadIcon,
+    DeleteBlackIcon,
 }
 
 

@@ -58,6 +58,7 @@ const Home = ({ navigation }) => {
           <Image source={Images.LOGO_LARGE} style={styles.logoLarge} />
           <Button
             text="Connect with members"
+            onPress={()=>{navigation.navigate(Routes.NOTIFICATION_SCREEN, { isFamilyMember:true })}}
           />
 
         </View>

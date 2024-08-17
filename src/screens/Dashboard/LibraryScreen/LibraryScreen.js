@@ -138,7 +138,9 @@ const LibraryScreen = ({ navigation }) => {
       <BooksCardComponent
         imageSource={item.image}
         title={item.title}
-        onPress={() => { }}
+        onPress={() => { navigation.navigate(Routes.BookPreviewScreen,{
+          item:{image:item.image,title:item.title}
+        })}}
       />
   );
 

@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Pressable, TouchableOpacity } from 'reac
 import { UtilityMethods, FontSize } from '../../utility';
 import { Colors, Fonts, Icons } from '../../assets';
 
-const BooksCardComponent = ({ imageSource, title, style, onPress, isAddButton }) => {
+const BooksCardComponent = ({ imageSource, title, style, onPress, isAddButton,isPaid=false }) => {
   return (
     <TouchableOpacity style={[styles.cardContainer, style]} onPress={onPress}>
       {isAddButton ?
@@ -16,6 +16,7 @@ const BooksCardComponent = ({ imageSource, title, style, onPress, isAddButton })
         </>
         :
         <>
+          {isPaid && <View style={styles.crown}><Icons.CrownIcon/></View>}
           <Image source={imageSource} style={styles.image} />
           <Text style={styles.title} numberOfLines={2}>
             {title}
@@ -32,6 +33,13 @@ const styles = StyleSheet.create({
     marginTop: UtilityMethods.hp(2),
     marginRight: UtilityMethods.wp(1),
     backgroundColor:Colors.WHITE,
+    position:'relative',
+  },
+  crown:{
+    position:'absolute',
+    zIndex:1,
+    right:UtilityMethods.wp(2),
+    top:UtilityMethods.hp(0.7)
   },
   addButton:{
     backgroundColor:Colors.WHITE,
