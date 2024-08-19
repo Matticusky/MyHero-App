@@ -34,9 +34,7 @@ const styles = StyleSheet.create({
   },
   rowCont:{
     flexDirection:'row',
-    
     paddingHorizontal:UtilityMethods.wp(1),
-  
   },
   regText:{
     fontSize:FontSize.VALUE(14),

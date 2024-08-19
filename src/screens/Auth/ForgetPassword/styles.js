@@ -7,20 +7,11 @@ import { Colors, Fonts } from "../../../assets";
 
 const styles = StyleSheet.create({
   cont: {
-    
     ...CommonStyles.PADDING_HORIZONTAL,
-   
-
-   
- 
-
-    
-    
  },
  contentContainerStyle:{
   flexGrow: 1,
   paddingTop:UtilityMethods.hp(5),
-
  },
   logo:{
     width:UtilityMethods.wp(24),

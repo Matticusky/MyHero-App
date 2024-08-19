@@ -9,8 +9,8 @@ import { menu } from '../../Data/DummyData';
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const AudioPlayComponent = ({ audioUri, user }) => {
-    const [loader, setLoader] = useState(true)
+const AudioPlayComponent = ({ audioUri, duration, user }) => {
+    const [loader, setLoader] = useState(false)
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentPositionSec, setCurrentPositionSec] = useState(0);
     const [currentDurationSec, setCurrentDurationSec] = useState(0);
@@ -18,7 +18,8 @@ const AudioPlayComponent = ({ audioUri, user }) => {
     const [durationTime, setDurationTime] = useState('00:00');
 
     useEffect(() => {
-        getAudioDuration()
+        // getAudioDuration()
+        setDurationTime(formatToMMSS(duration));
     }, [audioUri])
 
 
@@ -33,24 +34,24 @@ const AudioPlayComponent = ({ audioUri, user }) => {
     };
 
 
-    const getAudioDuration = async () => {
-        try {
-            await audioRecorderPlayer.startPlayer(audioUri);
-            audioRecorderPlayer.addPlayBackListener((e) => {
-                if (e.duration > 0) {
-                    setCurrentDurationSec(e.duration);
-                    setDurationTime(formatToMMSS(e.duration));
-                    audioRecorderPlayer.stopPlayer();
-                    audioRecorderPlayer.removePlayBackListener();
+    // const getAudioDuration = async () => {
+    //     try {
+    //         await audioRecorderPlayer.startPlayer(audioUri);
+    //         audioRecorderPlayer.addPlayBackListener((e) => {
+    //             if (e.duration > 0) {
+    //                 setCurrentDurationSec(e.duration);
+    //                 setDurationTime(formatToMMSS(e.duration));
+    //                 audioRecorderPlayer.stopPlayer();
+    //                 audioRecorderPlayer.removePlayBackListener();
 
-                    setLoader(false)
-                }
-            });
-        } catch (error) {
-            console.error('Error getting audio duration:', error);
-        }
+    //                 setLoader(false)
+    //             }
+    //         });
+    //     } catch (error) {
+    //         console.error('Error getting audio duration:', error);
+    //     }
 
-    };
+    // };
 
     const onStartPlay = async () => {
         await audioRecorderPlayer.startPlayer(audioUri);
@@ -62,6 +63,9 @@ const AudioPlayComponent = ({ audioUri, user }) => {
 
             if (e.currentPosition === e.duration) {
                 onPausePlay();
+                setIsPlaying(false)
+                setCurrentDurationSec(0)
+                audioRecorderPlayer.removePlayBackListener()
             }
         });
 
@@ -87,7 +91,7 @@ const AudioPlayComponent = ({ audioUri, user }) => {
 
     return (
         <View style={styles.container}>
-            <Image source={user.avatar} style={styles.avatar} />
+            <Image source={{uri:user.avatar}} style={styles.avatar} />
             <View style={styles.content}>
                 <Text style={styles.userName}>{user.name}</Text>
                 <Slider
@@ -98,7 +102,7 @@ const AudioPlayComponent = ({ audioUri, user }) => {
                     onValueChange={onSeek}
                     minimumTrackTintColor={Colors.BLACK}
                     maximumTrackTintColor={Colors.LIGHT_COLOR}
-                    thumbTintColor={Colors.SECONDARY}
+                    thumbTintColor={Colors.DARK_GRAY}
 
                 />
                 <Text style={styles.time}>{playTime}</Text>

@@ -28,6 +28,7 @@ import AddMembersScreen from "./Dashboard/AddMembersScreen/AddMembersScreen";
 import AddNewBook from "./Dashboard/AddNewBook/AddNewBook";
 import PurchaseCreditScreen from "./Dashboard/PurchaseCreditScreen/PurchaseCreditScreen";
 import BookPreviewScreen from "./Dashboard/BookPreviewScreen/BookPreviewScreen";
+import RecordAudioScreen from "./Dashboard/RecordAudioScreen/RecordAudioScreen";
 
 // TERMS AND CONDITIONS
 import TermsAndConditions from "./TermsAndConditions/TermsAndConditions"
@@ -61,4 +62,5 @@ export {
   AddNewBook,
   PurchaseCreditScreen,
   BookPreviewScreen,
+  RecordAudioScreen,
 };

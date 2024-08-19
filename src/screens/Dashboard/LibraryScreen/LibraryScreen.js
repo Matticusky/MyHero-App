@@ -139,7 +139,7 @@ const LibraryScreen = ({ navigation }) => {
         imageSource={item.image}
         title={item.title}
         onPress={() => { navigation.navigate(Routes.BookPreviewScreen,{
-          item:{image:item.image,title:item.title}
+          item:{_id:item.id,image:item.image,title:item.title}
         })}}
       />
   );
@@ -150,6 +150,9 @@ const LibraryScreen = ({ navigation }) => {
         imageSource={item.image}
         title={item.title}
         time={getRelativeTime(item.createdAt)}
+        onPress={() => { navigation.navigate(Routes.BookPreviewScreen,{
+          item:{_id:item.id, image:item.image,title:item.title}
+        })}}
       />
   );
 

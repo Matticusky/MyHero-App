@@ -82,6 +82,8 @@ import PauseAudio from './pauseAudio.svg'
 import DotIcon from './dotIcons.svg'
 import DownloadIcon from './downloadIcon.svg'
 import DeleteBlackIcon from './deleteBlackIcon.svg'
+import MicIcon from './micIcon.svg'
+import PauseIcon from './pauseIcon.svg'
 
 
 
@@ -172,6 +174,8 @@ export default Icons = {
     DotIcon,
     DownloadIcon,
     DeleteBlackIcon,
+    MicIcon,
+    PauseIcon,
 }
 
 

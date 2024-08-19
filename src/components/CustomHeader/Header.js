@@ -16,7 +16,8 @@ const Header = ({
   rightcontent,
   isLogout = false,
   logoutOnPress,
-  rightIcons = true
+  rightIcons = true,
+  handleBackPress,
 }) => {
   const navigation = useNavigation();
 
@@ -42,7 +43,7 @@ const Header = ({
         {showBackButton &&
           <TouchableOpacity
             style={styles.icon}
-            onPress={() => navigation.goBack()}
+            onPress={() => handleBackPress?.() || navigation.goBack()}
           >
             <Icon name="arrow-back" size={UtilityMethods.wp(7)} color={
               Colors.ICON_BLACK

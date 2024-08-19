@@ -129,6 +129,7 @@ const SignUp = ({ navigation }) => {
       setLastName({ ...lastName, error: "Last Name is required" });
       error["lastName"] = "Last Name is required";
     }
+    
     if (!rememberMe.value) {
       return AlertService.toastPrompt('You must agree to the terms and conditions','error')
     }

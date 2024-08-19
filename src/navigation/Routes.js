@@ -36,6 +36,7 @@ const Routes = {
   AddNewBook:"AddNewBook",
   PurchaseCreditScreen:"PurchaseCreditScreen",
   BookPreviewScreen:"BookPreviewScreen",
+  RecordAudioScreen:"RecordAudioScreen",
   BOTTOM_TAB:"BottomTab",
   DRAWER_NAVIGATOR:"DrawerNavigator",
   CHANGE_PASSWORD:'CHANGE_PASSWORD',  

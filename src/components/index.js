@@ -37,6 +37,7 @@ import AssetsUploaderComponent from "./AssetsUploaderComponent";
 import CoverImagePicker from "./CoverImagePicker";
 import AudioPlayComponent from "./AudioPlayComponent";
 import MaterialDropDown from "./MaterialDropDown";
+import ImageGallery from "./ImageGallery";
 
 
 
@@ -78,4 +79,5 @@ export {
     CoverImagePicker,
     AudioPlayComponent,
     MaterialDropDown,
+    ImageGallery,
 }

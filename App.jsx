@@ -2,7 +2,7 @@
 
 //================================ React Native Imported Files ======================================//
 import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -21,7 +21,12 @@ import { AudioRecorderPlayerComponent } from './src/components'
 
 export const navigationRef = createNavigationContainerRef();
 
+export const AUDIO_CONTEXT = createContext()
+
 const App = () => {
+
+  const [audioFiles, setAudioFiles] = useState([])
+
   return (
     <ToastProvider
       offsetTop={40}
@@ -31,9 +36,10 @@ const App = () => {
           <NavigationContainer ref={navigationRef}>
            <GestureHandlerRootView>
             <PaperProvider>
-
+              <AUDIO_CONTEXT.Provider  value={{audioFiles, setAudioFiles}} >
               <StatusBar backgroundColor="#fff" barStyle="dark-content" />
               <RootStack />
+              </AUDIO_CONTEXT.Provider>
            </PaperProvider>
 
             </GestureHandlerRootView>
