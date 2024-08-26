@@ -8,6 +8,7 @@ import CryptoJS from 'crypto-js';
 import axios from 'axios';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const checkPermissions = async () => {
   if (Platform.OS === 'android') {
@@ -238,19 +239,35 @@ const AudioRecorderPlayerComponent = () => {
         type: 'audio/wav',
       });
       // console.log(`file:///${encryptedData}`,audioFile,'encryptedData')
-      const response = await axios.post(`http://${deviceIp}/posts`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          // 'Content-Type': 'application/json',
-        },
-        timeout:60000,
+      // const response = await axios.post(`http://${deviceIp}/posts`, formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //     // 'Content-Type': 'application/json',
+      //   },
+      //   timeout:60000,
+      // });
+
+      // if (response.status === 200) {
+      //   Alert.alert('File sent successfully',response.data.status);
+      // } else {
+      //   Alert.alert(`Failed to send file. Status code: ${response.status}`);
+      // }
+
+
+      RNFetchBlob.fetch('POST', `http://${deviceIp}/posts`, {
+        'Content-Type': 'multipart/form-data',
+      }, [
+        { name: 'file', filename: `sound_${Date.now()}.wav`, data: RNFetchBlob.wrap(wavFilePath) },
+      ]).then((resp) => {
+        Alert.alert('File sent successfully',response.data.status);
+        console.log('File upload response: ', resp);
+      }).catch((err) => {
+        console.error('File upload error: ', err);
       });
 
-      if (response.status === 200) {
-        Alert.alert('File sent successfully',response.data.status);
-      } else {
-        Alert.alert(`Failed to send file. Status code: ${response.status}`);
-      }
+
+
+
     } catch (error) {
       Alert.alert('Failed to send file to device', error.message);
       console.log(error.message, "error");
@@ -259,6 +276,10 @@ const AudioRecorderPlayerComponent = () => {
       setLoader(false)
     }
   };
+
+
+
+
 
 
 
