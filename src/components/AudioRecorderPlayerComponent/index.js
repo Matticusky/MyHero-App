@@ -243,6 +243,7 @@ const AudioRecorderPlayerComponent = () => {
           'Content-Type': 'multipart/form-data',
           // 'Content-Type': 'application/json',
         },
+        timeout:60000,
       });
 
       if (response.status === 200) {
