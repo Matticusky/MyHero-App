@@ -9,7 +9,17 @@ import axios from 'axios';
 const audioRecorderPlayer = new AudioRecorderPlayer();
 import { FFmpegKit } from 'ffmpeg-kit-react-native';
 import RNFetchBlob from 'rn-fetch-blob';
+import {
 
+  initialize,
+  startDiscoveringPeers,
+  subscribeOnConnectionInfoUpdates,
+  subscribeOnThisDeviceChanged,
+  subscribeOnPeersUpdates,
+  sendFile,
+
+
+} from 'react-native-wifi-p2p';
 const checkPermissions = async () => {
   if (Platform.OS === 'android') {
     const recordAudioPermission = await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
@@ -43,6 +53,60 @@ const AudioRecorderPlayerComponent = () => {
   const [wavFilePath, setWavFilePath] = useState(null);
 
   // const secretKey = '0123456789012345';
+
+  const [devices, setDevices] = useState([]);
+  let peersUpdatesSubscription;
+  let connectionInfoUpdatesSubscription;
+  let thisDeviceChangedSubscription;
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initialize();
+
+        if (Platform.OS === 'android') {
+          // Request Android-specific permissions
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+            {
+              title: 'Access to Wi-Fi P2P mode',
+              message: 'ACCESS_COARSE_LOCATION',
+            },
+          );
+
+          console.log(
+            granted === PermissionsAndroid.RESULTS.GRANTED
+              ? 'You can use the p2p mode'
+              : 'Permission denied: p2p mode will not work',
+          );
+        } else if (Platform.OS === 'ios') {
+          // iOS-specific code (if needed)
+          // For iOS, permissions are generally handled in the app configuration and plist files
+        }
+
+        peersUpdatesSubscription = subscribeOnPeersUpdates(handleNewPeers);
+        connectionInfoUpdatesSubscription = subscribeOnConnectionInfoUpdates(handleNewInfo);
+        thisDeviceChangedSubscription = subscribeOnThisDeviceChanged(handleThisDeviceChanged);
+
+        const status = await startDiscoveringPeers();
+        console.log('startDiscoveringPeers status: ', status);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    init();
+
+    return () => {
+      peersUpdatesSubscription?.remove();
+      connectionInfoUpdatesSubscription?.remove();
+      thisDeviceChangedSubscription?.remove();
+    };
+  }, []);
+
+
+
+
 
   useEffect(() => {
     async function initPermissions() {
@@ -132,6 +196,7 @@ const AudioRecorderPlayerComponent = () => {
         audioRecorderPlayer.removePlayBackListener();
         setAudioFile(null)
         setIsPlaying(false);
+        setWavFilePath(null)
   }
 
   const saveRecording = async () => {
@@ -259,7 +324,7 @@ const AudioRecorderPlayerComponent = () => {
       }, [
         { name: 'file', filename: `sound_${Date.now()}.wav`, data: RNFetchBlob.wrap(wavFilePath) },
       ]).then((resp) => {
-        Alert.alert('File sent successfully',response.data.status);
+        Alert.alert('File sent successfully');
         console.log('File upload response: ', resp);
       }).catch((err) => {
         console.error('File upload error: ', err);
@@ -269,11 +334,44 @@ const AudioRecorderPlayerComponent = () => {
 
 
     } catch (error) {
-      Alert.alert('Failed to send file to device', error.message);
+      Alert.alert('Failed to send file to device', );
       console.log(error.message, "error");
     }
     finally{
       setLoader(false)
+    }
+  };
+
+
+  const onSendFile = () => {
+    const url = wavFilePath;
+
+    if (Platform.OS === 'android') {
+      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, {
+        title: 'Access to read',
+        message: 'READ_EXTERNAL_STORAGE',
+      })
+        .then(granted => {
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('You can use the storage');
+          } else {
+            console.log('Storage permission denied');
+          }
+        })
+        .then(() => {
+          return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
+            title: 'Access to write',
+            message: 'WRITE_EXTERNAL_STORAGE',
+          });
+        })
+        .then(() => {
+          return sendFile(url)
+            .then(metaInfo => console.log('File sent successfully', metaInfo))
+            .catch(err => console.log('Error while file sending', err));
+        })
+        .catch(err => console.log(err));
+    } else if (Platform.OS === 'ios') {
+      // iOS-specific file sending code (if applicable)
     }
   };
 
