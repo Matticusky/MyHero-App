@@ -67,13 +67,14 @@ const MaterialDropDown = ({
     );
 };
 export default memo(MaterialDropDown);
+
 const styles = StyleSheet.create({
     dropDown: {
         borderRadius: UtilityMethods.wp(1),
         alignItems: "center",
         justifyContent: "center",
-        width:UtilityMethods.wp(30),
-        paddingTop:UtilityMethods.hp(8),
+        width:UtilityMethods.wp(52),
+        paddingTop: Platform.OS ==='android' ? UtilityMethods.hp(4): null,
         
     },
     dropDownLabel: {

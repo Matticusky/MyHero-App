@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
   logoLarge:{
     width:UtilityMethods.wp(70),
     height:UtilityMethods.wp(70),
-    resizeMode:'contain'
+    resizeMode:'contain',
+    marginBottom:UtilityMethods.hp(2)
   }
 });
 

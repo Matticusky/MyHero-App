@@ -38,6 +38,7 @@ import CoverImagePicker from "./CoverImagePicker";
 import AudioPlayComponent from "./AudioPlayComponent";
 import MaterialDropDown from "./MaterialDropDown";
 import ImageGallery from "./ImageGallery";
+import SyncWithRecorderModal from "./SyncWithRecorderModal";
 
 
 
@@ -80,4 +81,5 @@ export {
     AudioPlayComponent,
     MaterialDropDown,
     ImageGallery,
+    SyncWithRecorderModal,
 }

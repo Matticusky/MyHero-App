@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    ...CommonStyles.PADDING_HORIZONTAL,
+    // ...CommonStyles.PADDING_HORIZONTAL,
+    paddingHorizontal:UtilityMethods.wp(4)
   },
   icon: {
     width: UtilityMethods.wp(10),

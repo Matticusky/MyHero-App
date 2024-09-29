@@ -392,6 +392,41 @@ export const menu = [
   {
     label: "Delete",
     value: "delete",
-    icon : <Icons.DeleteBlackIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+    icon : <Icons.DeleteBlackIcon width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
   },
+  {
+    label: "Sync with recorder",
+    value: "sync",
+    icon : <Icons.syncIcon width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+  },
+];
+
+
+export const bookPreviewDotNenu = [
+  {
+    label: "Share with members",
+    value: "share",
+    icon : <Icons.shareIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+  },
+  {
+    label: "Edit",
+    value: "edit",
+    icon : <Icons.EditIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+  },
+  {
+    label: "Save to phone",
+    value: "save",
+    icon : <Icons.DownloadIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+  },
+  {
+    label: "Upload",
+    value: "upload",
+    icon : <Icons.uploadIconBlack width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+  },
+  {
+    label: "Delete",
+    value: "delete",
+    icon : <Icons.DeleteBlackIcon width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+  },
+ 
 ];

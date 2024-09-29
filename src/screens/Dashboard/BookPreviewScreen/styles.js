@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
         borderRadius: UtilityMethods.wp(2),
         backgroundColor: Colors.WHITE,
         marginVertical: UtilityMethods.hp(2),
-        paddingHorizontal:UtilityMethods.wp(8)
+        paddingHorizontal:UtilityMethods.wp(4),
+        paddingLeft:UtilityMethods.wp(8)
     },
     bookImage: {
         width: UtilityMethods.wp(25),
@@ -58,7 +59,15 @@ const styles = StyleSheet.create({
         paddingVertical:UtilityMethods.wp(3),
         position:'absolute',
         bottom:0,
-    }
+    },
+    saveButtonContainer:{
+        position:'absolute',
+        paddingVertical:UtilityMethods.wp(2),
+        paddingLeft:UtilityMethods.wp(4),
+        paddingRight:0,
+        // backgroundColor:'red',
+        right:UtilityMethods.wp(-2),
+    },
 
 })
 

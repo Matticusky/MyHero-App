@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View ,Image, FlatList, TouchableOpacity, Alert} from 'react-native';
 import { useDispatch } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 
 import styles from './styles';

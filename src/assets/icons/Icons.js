@@ -71,6 +71,7 @@ import lockIcon from './lockIcon.svg'
 import EditIcon from './EditIcon.svg'
 import PhoneIcon from './phoneIcon.svg'
 import UploadIcon from './upload-icon.svg'
+import uploadIconBlack from './uploadIconBlack.svg'
 import PlayIcon from './play_icon.svg'
 import RemoveIcon from './remove-icon.svg'
 import CameraIcon from './camera.svg'
@@ -84,6 +85,8 @@ import DownloadIcon from './downloadIcon.svg'
 import DeleteBlackIcon from './deleteBlackIcon.svg'
 import MicIcon from './micIcon.svg'
 import PauseIcon from './pauseIcon.svg'
+import syncIcon from './syncIcon.svg'
+import shareIcon from './shareIcon.svg'
 
 
 
@@ -163,6 +166,7 @@ export default Icons = {
     EditIcon,
     PhoneIcon,
     UploadIcon,
+    uploadIconBlack,
     PlayIcon,
     RemoveIcon,
     CameraIcon,
@@ -176,6 +180,8 @@ export default Icons = {
     DeleteBlackIcon,
     MicIcon,
     PauseIcon,
+    syncIcon,
+    shareIcon,
 }
 
 

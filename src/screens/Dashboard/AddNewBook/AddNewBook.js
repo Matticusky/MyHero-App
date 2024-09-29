@@ -1,13 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import styles from './styles'
 import { AssetsUploaderComponent, Button, CoverImagePicker, CustomizedInput, Header, ImagePicker, MainLayout, ScreenWrapper } from '../../../components'
 import { useState } from 'react';
 import { Icons } from '../../../assets';
 import { UtilityMethods } from '../../../utility';
 
-const AddNewBook = ({ navigation }) => {
+const AddNewBook = ({ navigation, route }) => {
     const [coverImage, setCoverImage] = useState(null);
     const [assets, setAssets] = useState([]);
+    const isEdited = route?.params;
 
     const [bookTitle, setBookTitle] = useState({
         inputType: "text",
@@ -19,11 +20,23 @@ const AddNewBook = ({ navigation }) => {
         leftIcon: <Icons.BookIcon />
     });
 
+    const handleDiscard = () =>{
+        Alert.alert("Warning", "Are you sure you want to discard?",[
+            {
+                text:"No",
+            },
+            {
+                text:"Yes",
+                onPress: ()=>navigation.goBack()
+            }
+        ])
+    }
+
 
     return (
         <MainLayout>
             <Header
-                title={"Add book"}
+                title={isEdited ? "Edit book" : "Add book"}
                 rightIcons={false}
                 showBackButton={true}
             />
@@ -38,7 +51,7 @@ const AddNewBook = ({ navigation }) => {
                 <CustomizedInput
                     fieldInfo={bookTitle}
                     onChange={(text) => {
-                        setBookTitle({ ...firbookTitlestName, value: text, error: "" });
+                        setBookTitle({ ...bookTitle, value: text, error: "" });
                     }}
                     style={styles.titleStyle}
                 />
@@ -52,7 +65,7 @@ const AddNewBook = ({ navigation }) => {
 
                 <View style={styles.buttonContainer}>
                     <Button
-                        text={"Save Changes"}
+                        text={isEdited? "Edit Changes" : "Save Changes"}
                         style={{
                             marginTop: UtilityMethods.hp(4)
                         }}
@@ -62,7 +75,7 @@ const AddNewBook = ({ navigation }) => {
                         text={"Discard"}
                         style={styles.changePassowrd}
                         textStyle={styles.changePassowrdText}
-                        onPress={() => navigation.goBack()}
+                        onPress={handleDiscard}
                     />
                 </View>
 

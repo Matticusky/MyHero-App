@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, ActivityIndicator, Platform, Alert } from 'react-native';
 import Slider from '@react-native-community/slider';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import { UtilityMethods, FontSize } from '../../utility';
 import { Colors, Fonts, Icons } from '../../assets';
 import MaterialDropDown from '../MaterialDropDown';
 import { menu } from '../../Data/DummyData';
+import TcpSocket from 'react-native-tcp-socket';
+import RNFS from 'react-native-fs';
+import {Buffer} from 'buffer';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const AudioPlayComponent = ({ audioUri, duration, user }) => {
+const AudioPlayComponent = ({_id, audioUri, duration, user,setAudioFiles,setBookAudios,handleSyncWithRecorder }) => {
     const [loader, setLoader] = useState(false)
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentPositionSec, setCurrentPositionSec] = useState(0);
     const [currentDurationSec, setCurrentDurationSec] = useState(0);
     const [playTime, setPlayTime] = useState('00:00');
     const [durationTime, setDurationTime] = useState('00:00');
+
+    const [thumbIcon, setThumbIcon] = useState(null)
+
+  useEffect(()=>{
+    Icon.getImageSource('circle', UtilityMethods.wp(4), Colors.ICON_BLACK)
+     .then(setThumbIcon);
+  },[])
 
     useEffect(() => {
         // getAudioDuration()
@@ -85,9 +96,42 @@ const AudioPlayComponent = ({ audioUri, duration, user }) => {
 
 
 
-    const onPressMenu = () => {
-
+    const onPressMenu = (value) => {
+        switch(value){
+            case 'save':
+                saveItem();
+                break;
+            case 'delete':
+                deleteItem();
+                break;
+            case 'sync':
+                syncItem();
+                break;
+            default:
+                break;
+        }
     }
+
+    const saveItem = ()=>{
+        Alert.alert("Success", 'Item saved')
+    }
+    const deleteItem = ()=>{
+        Alert.alert("Warning","Are you sure you want to delete this item",[{text:"No"},{text:'Yes',onPress:filterAudios}])
+    }
+    const syncItem = async ()=>{
+        handleSyncWithRecorder(audioUri)
+    }
+
+    const filterAudios = () =>{
+        audioRecorderPlayer.stopPlayer();
+        setAudioFiles(prevAudioFiles => 
+            prevAudioFiles.filter(audioFile => audioFile._id !== _id)
+          );
+          setBookAudios(prevAudioFiles => 
+            prevAudioFiles.filter(audioFile => audioFile._id !== _id)
+          );
+    }
+
 
     return (
         <View style={styles.container}>
@@ -102,8 +146,8 @@ const AudioPlayComponent = ({ audioUri, duration, user }) => {
                     onValueChange={onSeek}
                     minimumTrackTintColor={Colors.BLACK}
                     maximumTrackTintColor={Colors.LIGHT_COLOR}
-                    thumbTintColor={Colors.DARK_GRAY}
-
+                    thumbTintColor={Colors.ICON_BLACK}
+                    thumbImage={thumbIcon}
                 />
                 <Text style={styles.time}>{playTime}</Text>
             </View>

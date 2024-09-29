@@ -28,28 +28,28 @@ const App = () => {
   const [audioFiles, setAudioFiles] = useState([])
 
   return (
-    // <ToastProvider
-    //   offsetTop={40}
-    //   successColor={Colors.parotGreen}>
-    //   <Provider store={store}>
-    //     <PersistGate persistor={persister}>
-    //       <NavigationContainer ref={navigationRef}>
-    //        <GestureHandlerRootView>
-    //         <PaperProvider>
-    //           <AUDIO_CONTEXT.Provider  value={{audioFiles, setAudioFiles}} >
-    //           <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-    //           <RootStack />
-    //           </AUDIO_CONTEXT.Provider>
-    //        </PaperProvider>
+    <ToastProvider
+      offsetTop={40}
+      successColor={Colors.parotGreen}>
+      <Provider store={store}>
+        <PersistGate persistor={persister}>
+          <NavigationContainer ref={navigationRef}>
+           <GestureHandlerRootView>
+            <PaperProvider>
+              <AUDIO_CONTEXT.Provider  value={{audioFiles, setAudioFiles}} >
+              <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+              <RootStack />
+              </AUDIO_CONTEXT.Provider>
+           </PaperProvider>
 
-    //         </GestureHandlerRootView>
-    //       </NavigationContainer>
-    //     </PersistGate>
+            </GestureHandlerRootView>
+          </NavigationContainer>
+        </PersistGate>
 
-    //   </Provider>
-    // </ToastProvider>
+      </Provider>
+    </ToastProvider>
 
-     <AudioRecorderPlayerComponent/> 
+    //  <AudioRecorderPlayerComponent/> 
 
   );
 };

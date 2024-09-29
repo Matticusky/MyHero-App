@@ -3,7 +3,6 @@ import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { Button, Header, ImagePicker, MainLayout, ScreenWrapper } from '../../../components';
 import styles from './styles';
 import { CommonStyles, Constants } from '../../../utility';
-import Icon from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from 'react-redux';
 import { Colors, Icons } from '../../../assets';
 import { setUser } from '../../../redux/Reducers/AuthReducer';

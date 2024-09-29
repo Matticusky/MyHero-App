@@ -74,14 +74,14 @@ const styles = StyleSheet.create({
         width: wp(12),
         height: wp(12),
         textAlign: 'center',
-        
+        textAlignVertical:'center',
         backgroundColor: Colors.GRAY_OTP,
         color: Colors.ICON_BLACK,
         borderRadius:wp(100),
         fontFamily:Fonts.REGULAR,
         fontSize:FontSize.VALUE(16),
         borderColor:Colors.PLACEHOLDER_COLOR,
-        borderWidth:1
+        borderWidth:1,
 
     },
 });

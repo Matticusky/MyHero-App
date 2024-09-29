@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
   logo:{
     width:UtilityMethods.wp(40),
     height:UtilityMethods.wp(40),
-    fontFamily:Fonts.SEMI_BOLD
+    fontFamily:Fonts.SEMI_BOLD,
+    resizeMode:'contain'
   },
   regText:{
     color:Colors.BLACK,
