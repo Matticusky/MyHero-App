@@ -1,36 +1,37 @@
-import { Icons, Images } from "../assets";
-import { UtilityMethods } from "../utility";
+import {Icons, Images} from '../assets';
+import {UtilityMethods} from '../utility';
 
 export const UserTypes = [
   {
     id: 1,
     name: 'Student',
-
   },
   {
     id: 2,
     name: 'Instructor',
-
   },
-
-
-]
-
+];
 
 export const genders = [
-  { label: "Male", value: "MALE" },
-  { label: "Female", value: "FEMALE" },
+  {label: 'Male', value: 'MALE'},
+  {label: 'Female', value: 'FEMALE'},
 ];
-
-
 
 export const attendanceData = [
-  { id: '1', status: 'Present', className: 'ABCD', dateTime: 'Thu 4:30 PM, Mar 23, 2024' },
-  { id: '2', status: 'Absent', className: 'XYZ', dateTime: 'Fri 10:00 AM, Mar 24, 2024' },
+  {
+    id: '1',
+    status: 'Present',
+    className: 'ABCD',
+    dateTime: 'Thu 4:30 PM, Mar 23, 2024',
+  },
+  {
+    id: '2',
+    status: 'Absent',
+    className: 'XYZ',
+    dateTime: 'Fri 10:00 AM, Mar 24, 2024',
+  },
   // Add more data as needed
 ];
-
-
 
 export const attendanceListData = [
   {
@@ -51,232 +52,243 @@ export const attendanceListData = [
 
 export const dummyExcuseData = [
   {
-    "_id": "669e3c8bc37c5c9fd452b6e2",
-    "name": "FYP",
-    "semester": 1,
-    "schedule": {
-      "date": "2024-07-25T00:00:00.000Z",
-      "startTime": "17:03",
-      "endTime": "18:03",
-      "_id": "669e3d97bc7054a17312a6e2"
+    _id: '669e3c8bc37c5c9fd452b6e2',
+    name: 'FYP',
+    semester: 1,
+    schedule: {
+      date: '2024-07-25T00:00:00.000Z',
+      startTime: '17:03',
+      endTime: '18:03',
+      _id: '669e3d97bc7054a17312a6e2',
     },
-    "createdBy": "Abdul Basit",
-    "geoTracking": "disable",
-    "excusedAbsenceAllowance": 2,
-    "enrolledStudents": [
-      "669e3c4a7b6d2e298db17884",
-      "669e3c1f6304f2fb428bfa5d",
-      "669e3c37343c808d5dfe0526"
+    createdBy: 'Abdul Basit',
+    geoTracking: 'disable',
+    excusedAbsenceAllowance: 2,
+    enrolledStudents: [
+      '669e3c4a7b6d2e298db17884',
+      '669e3c1f6304f2fb428bfa5d',
+      '669e3c37343c808d5dfe0526',
     ],
-    "__v": 0
+    __v: 0,
   },
-]
-
+];
 
 export const particularDatesdummyExcuseData = [
   {
-    "_id": "669e3c8bc37c5c9fd452b6e2",
-    "name": "Advanced Data Structures & Algorithm Analysis",
-    "semester": 1,
-    "schedule": {
-      "date": "2024-07-25T00:00:00.000Z",
-      "startTime": "17:03",
-      "endTime": "18:03",
-      "_id": "669e3d97bc7054a17312a6e2"
+    _id: '669e3c8bc37c5c9fd452b6e2',
+    name: 'Advanced Data Structures & Algorithm Analysis',
+    semester: 1,
+    schedule: {
+      date: '2024-07-25T00:00:00.000Z',
+      startTime: '17:03',
+      endTime: '18:03',
+      _id: '669e3d97bc7054a17312a6e2',
     },
-    "createdBy": "Abdul Basit",
-    "geoTracking": "disable",
-    "excusedAbsenceAllowance": 2,
-    "enrolledStudents": [
-      "669e3c4a7b6d2e298db17884",
-      "669e3c1f6304f2fb428bfa5d",
-      "669e3c37343c808d5dfe0526"
+    createdBy: 'Abdul Basit',
+    geoTracking: 'disable',
+    excusedAbsenceAllowance: 2,
+    enrolledStudents: [
+      '669e3c4a7b6d2e298db17884',
+      '669e3c1f6304f2fb428bfa5d',
+      '669e3c37343c808d5dfe0526',
     ],
-    "__v": 0
+    __v: 0,
   },
   {
-    "_id": "669e3c8bc37c5c9fd452b6e3",
-    "name": "FYP",
-    "semester": 1,
-    "schedule": {
-      "date": "2024-07-25T00:00:00.000Z",
-      "startTime": "17:03",
-      "endTime": "18:03",
-      "_id": "669e3d97bc7054a17312a6e2"
+    _id: '669e3c8bc37c5c9fd452b6e3',
+    name: 'FYP',
+    semester: 1,
+    schedule: {
+      date: '2024-07-25T00:00:00.000Z',
+      startTime: '17:03',
+      endTime: '18:03',
+      _id: '669e3d97bc7054a17312a6e2',
     },
-    "createdBy": "Abdul Basit",
-    "geoTracking": "disable",
-    "excusedAbsenceAllowance": 2,
-    "enrolledStudents": [
-      "669e3c4a7b6d2e298db17884",
-      "669e3c1f6304f2fb428bfa5d",
-      "669e3c37343c808d5dfe0526"
+    createdBy: 'Abdul Basit',
+    geoTracking: 'disable',
+    excusedAbsenceAllowance: 2,
+    enrolledStudents: [
+      '669e3c4a7b6d2e298db17884',
+      '669e3c1f6304f2fb428bfa5d',
+      '669e3c37343c808d5dfe0526',
     ],
-    "__v": 0
+    __v: 0,
   },
   {
-    "_id": "669e3c8bc37c5c9fd452b6e4",
-    "name": "FYP final year",
-    "semester": 1,
-    "schedule": {
-      "date": "2024-07-25T00:00:00.000Z",
-      "startTime": "17:03",
-      "endTime": "18:03",
-      "_id": "669e3d97bc7054a17312a6e2"
+    _id: '669e3c8bc37c5c9fd452b6e4',
+    name: 'FYP final year',
+    semester: 1,
+    schedule: {
+      date: '2024-07-25T00:00:00.000Z',
+      startTime: '17:03',
+      endTime: '18:03',
+      _id: '669e3d97bc7054a17312a6e2',
     },
-    "createdBy": "Abdul Basit",
-    "geoTracking": "disable",
-    "excusedAbsenceAllowance": 2,
-    "enrolledStudents": [
-      "669e3c4a7b6d2e298db17884",
-      "669e3c1f6304f2fb428bfa5d",
-      "669e3c37343c808d5dfe0526"
+    createdBy: 'Abdul Basit',
+    geoTracking: 'disable',
+    excusedAbsenceAllowance: 2,
+    enrolledStudents: [
+      '669e3c4a7b6d2e298db17884',
+      '669e3c1f6304f2fb428bfa5d',
+      '669e3c37343c808d5dfe0526',
     ],
-    "__v": 0
+    __v: 0,
   },
-]
-
-
-export const notifications = [
-  { id: '1', title: 'Excused Absence', message: 'Your Excused Absence request has been approved' },
-  { id: '2', title: 'Excused Absence', message: 'Your Excused Absence request has been approved' },
-  { id: '3', title: 'Excused Absence', message: 'Your Excused Absence request has been approved' },
-  { id: '4', title: 'Excused Absence', message: 'Your Excused Absence request has been approved' },
-  { id: '5', title: 'Excused Absence', message: 'Your Excused Absence request has been approved' },
-  { id: '6', title: 'Excused Absence', message: 'Your Excused Absence request has been approved' },
 ];
 
+export const notifications = [
+  {
+    id: '1',
+    title: 'Excused Absence',
+    message: 'Your Excused Absence request has been approved',
+  },
+  {
+    id: '2',
+    title: 'Excused Absence',
+    message: 'Your Excused Absence request has been approved',
+  },
+  {
+    id: '3',
+    title: 'Excused Absence',
+    message: 'Your Excused Absence request has been approved',
+  },
+  {
+    id: '4',
+    title: 'Excused Absence',
+    message: 'Your Excused Absence request has been approved',
+  },
+  {
+    id: '5',
+    title: 'Excused Absence',
+    message: 'Your Excused Absence request has been approved',
+  },
+  {
+    id: '6',
+    title: 'Excused Absence',
+    message: 'Your Excused Absence request has been approved',
+  },
+];
 
 export const attemptsData = [
-  { label: '1 Time', value: '1' },
-  { label: '2 Times', value: '2' },
-  { label: '3 Times', value: '3' },
+  {label: '1 Time', value: '1'},
+  {label: '2 Times', value: '2'},
+  {label: '3 Times', value: '3'},
 ];
 
 export const expiryData = [
-  { label: '1 Minute', value: '1' },
-  { label: '5 Minutes', value: '5' },
-  { label: '10 Minutes', value: '10' },
+  {label: '1 Minute', value: '1'},
+  {label: '5 Minutes', value: '5'},
+  {label: '10 Minutes', value: '10'},
 ];
-
 
 export const CACHE_CLEAR_INTERVAL = 86400000;
 
-
-
-
 export const DummyBooksData = [
   {
-    "id": 0,
+    id: 0,
   },
   {
-    "id": 1,
-    "title": "The Magical Adventures of Sunny the Squirrel",
-    'image': Images.BOOK_1,
-    'createdAt': new Date('2024-08-08T10:00:00Z'),
-    'member': { _id: '1', name: 'Markram' }
+    id: 1,
+    title: 'The Magical Adventures of Sunny the Squirrel',
+    image: Images.BOOK_1,
+    createdAt: new Date('2024-08-08T10:00:00Z'),
+    member: {_id: '1', name: 'Markram'},
   },
   {
-    "id": 2,
-    "title": "The Enchanted Forest",
-    'image': Images.BOOK_2,
-    'createdAt': new Date('2024-08-05T14:30:00Z'),
-    'member': { _id: '2', name: 'John' }
+    id: 2,
+    title: 'The Enchanted Forest',
+    image: Images.BOOK_2,
+    createdAt: new Date('2024-08-05T14:30:00Z'),
+    member: {_id: '2', name: 'John'},
   },
   {
-    "id": 3,
-    "title": "Journey to the Moonlit Meadow",
-    'image': Images.BOOK_3,
-    'createdAt': new Date('2024-07-15T09:00:00Z'),
-    'member': { _id: '1', name: 'Markram' }
+    id: 3,
+    title: 'Journey to the Moonlit Meadow',
+    image: Images.BOOK_3,
+    createdAt: new Date('2024-07-15T09:00:00Z'),
+    member: {_id: '1', name: 'Markram'},
   },
   {
-    "id": 4,
-    "title": "Mysteries of the Deep Sea",
-    'image': Images.BOOK_2,
-    'createdAt': new Date('2024-07-01T12:00:00Z'),
-    'member': { _id: '3', name: 'Alice' }
+    id: 4,
+    title: 'Mysteries of the Deep Sea',
+    image: Images.BOOK_2,
+    createdAt: new Date('2024-07-01T12:00:00Z'),
+    member: {_id: '3', name: 'Alice'},
   },
   {
-    "id": 5,
-    "title": "The Lost Treasure of Pirate Cove",
-    'image': Images.BOOK_1,
-    'createdAt': new Date('2024-08-09T08:00:00Z'),
-    'member': { _id: '2', name: 'John' }
+    id: 5,
+    title: 'The Lost Treasure of Pirate Cove',
+    image: Images.BOOK_1,
+    createdAt: new Date('2024-08-09T08:00:00Z'),
+    member: {_id: '2', name: 'John'},
   },
   {
-    "id": 6,
-    "title": "The Whispering Winds",
-    'image': Images.BOOK_1,
-    'createdAt': new Date('2024-08-10T07:30:00Z'),
-    'member': { _id: '3', name: 'Alice' }
+    id: 6,
+    title: 'The Whispering Winds',
+    image: Images.BOOK_1,
+    createdAt: new Date('2024-08-10T07:30:00Z'),
+    member: {_id: '3', name: 'Alice'},
   },
   {
-    "id": 7,
-    "title": "The Talking Tree",
-    'image': Images.BOOK_3,
-    'createdAt': new Date('2024-07-30T16:00:00Z'),
-    'member': { _id: '1', name: 'Markram' }
+    id: 7,
+    title: 'The Talking Tree',
+    image: Images.BOOK_3,
+    createdAt: new Date('2024-07-30T16:00:00Z'),
+    member: {_id: '1', name: 'Markram'},
   },
   {
-    "id": 8,
-    "title": "A Day in the Life of a Bee",
-    'image': Images.BOOK_2,
-    'createdAt': new Date('2024-08-07T15:00:00Z'),
-    'member': {}  // No member associated
+    id: 8,
+    title: 'A Day in the Life of a Bee',
+    image: Images.BOOK_2,
+    createdAt: new Date('2024-08-07T15:00:00Z'),
+    member: {}, // No member associated
   },
 ];
-
 
 export const membersData = [
-  { _id: 'all', name: 'All', svg: Icons.AllMembers },
-  { _id: '1', name: 'Markram', image: Images.MEMBER_1 },
-  { _id: '2', name: 'John', image: Images.MEMBER_2 },
-  { _id: '3', name: 'Alice', image: Images.MEMBER_3 },
+  {_id: 'all', name: 'All', svg: Icons.AllMembers},
+  {_id: '1', name: 'Markram', image: Images.MEMBER_1},
+  {_id: '2', name: 'John', image: Images.MEMBER_2},
+  {_id: '3', name: 'Alice', image: Images.MEMBER_3},
 ];
-
-
 
 export const PhysicalBooks = [
   {
-    "id": 1,
-    "title": "The Magical Adventures of Sunny the Squirrel",
-    'image': Images.BOOK_1,
-    'createdAt': new Date('2024-08-08T10:00:00Z'),
-    'member': { _id: '1', name: 'Markram' }
+    id: 1,
+    title: 'The Magical Adventures of Sunny the Squirrel',
+    image: Images.BOOK_1,
+    createdAt: new Date('2024-08-08T10:00:00Z'),
+    member: {_id: '1', name: 'Markram'},
   },
   {
-    "id": 2,
-    "title": "The Enchanted Forest",
-    'image': Images.BOOK_2,
-    'createdAt': new Date('2024-08-05T14:30:00Z'),
-    'member': { _id: '2', name: 'John' }
+    id: 2,
+    title: 'The Enchanted Forest',
+    image: Images.BOOK_2,
+    createdAt: new Date('2024-08-05T14:30:00Z'),
+    member: {_id: '2', name: 'John'},
   },
   {
-    "id": 3,
-    "title": "Journey to the Moonlit Meadow",
-    'image': Images.BOOK_3,
-    'createdAt': new Date('2024-07-15T09:00:00Z'),
-    'member': { _id: '1', name: 'Markram' }
+    id: 3,
+    title: 'Journey to the Moonlit Meadow',
+    image: Images.BOOK_3,
+    createdAt: new Date('2024-07-15T09:00:00Z'),
+    member: {_id: '1', name: 'Markram'},
   },
   {
-    "id": 4,
-    "title": "Mysteries of the Deep Sea",
-    'image': Images.BOOK_2,
-    'createdAt': new Date('2024-07-01T12:00:00Z'),
-    'member': { _id: '3', name: 'Alice' }
+    id: 4,
+    title: 'Mysteries of the Deep Sea',
+    image: Images.BOOK_2,
+    createdAt: new Date('2024-07-01T12:00:00Z'),
+    member: {_id: '3', name: 'Alice'},
   },
   {
-    "id": 5,
-    "title": "The Lost Treasure of Pirate Cove",
-    'image': Images.BOOK_1,
-    'createdAt': new Date('2024-08-09T08:00:00Z'),
-    'member': { _id: '2', name: 'John' }
+    id: 5,
+    title: 'The Lost Treasure of Pirate Cove',
+    image: Images.BOOK_1,
+    createdAt: new Date('2024-08-09T08:00:00Z'),
+    member: {_id: '2', name: 'John'},
   },
-
 ];
-
-
 
 export const dummyAddresses = [
   {
@@ -300,10 +312,7 @@ export const dummyAddresses = [
     locationIcon: <Icons.address width={24} height={24} />,
     editIcon: <Icons.EditIcon width={24} height={24} />,
   },
-
 ];
-
-
 
 export const membersDataList = [
   {
@@ -350,8 +359,6 @@ export const membersDataList = [
   },
 ];
 
-
-
 export const notificationData = [
   {
     id: '1',
@@ -370,63 +377,99 @@ export const notificationData = [
   },
 ];
 
-
-
 export const audioData = [
   {
     id: '1',
-    user: { name: 'Markram', avatar: Images.MEMBER_1 },
-    audioUri: 'https://file-examples.com/storage/fe519944ff66ba53b99c446/2017/11/file_example_MP3_700KB.mp3',
+    user: {name: 'Markram', avatar: Images.MEMBER_1},
+    audioUri:
+      'https://file-examples.com/storage/fe519944ff66ba53b99c446/2017/11/file_example_MP3_700KB.mp3',
     duration: 120000, // Example duration in milliseconds
   },
   // Add more audio data here
 ];
 
-
 export const menu = [
   {
-    label: "Save",
-    value: "save",
-    icon : <Icons.DownloadIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+    label: 'Save',
+    value: 'save',
+    icon: (
+      <Icons.DownloadIcon
+        width={UtilityMethods.wp(6)}
+        height={UtilityMethods.wp(6)}
+      />
+    ),
   },
   {
-    label: "Delete",
-    value: "delete",
-    icon : <Icons.DeleteBlackIcon width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+    label: 'Delete',
+    value: 'delete',
+    icon: (
+      <Icons.DeleteBlackIcon
+        width={UtilityMethods.wp(5)}
+        height={UtilityMethods.wp(5)}
+      />
+    ),
   },
   {
-    label: "Sync with recorder",
-    value: "sync",
-    icon : <Icons.syncIcon width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+    label: 'Send to recorder',
+    value: 'sync',
+    icon: (
+      <Icons.syncIcon
+        width={UtilityMethods.wp(5)}
+        height={UtilityMethods.wp(5)}
+      />
+    ),
   },
 ];
 
-
 export const bookPreviewDotNenu = [
   {
-    label: "Share with members",
-    value: "share",
-    icon : <Icons.shareIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+    label: 'Share with members',
+    value: 'share',
+    icon: (
+      <Icons.shareIcon
+        width={UtilityMethods.wp(6)}
+        height={UtilityMethods.wp(6)}
+      />
+    ),
   },
   {
-    label: "Edit",
-    value: "edit",
-    icon : <Icons.EditIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+    label: 'Edit',
+    value: 'edit',
+    icon: (
+      <Icons.EditIcon
+        width={UtilityMethods.wp(6)}
+        height={UtilityMethods.wp(6)}
+      />
+    ),
   },
   {
-    label: "Save to phone",
-    value: "save",
-    icon : <Icons.DownloadIcon width={UtilityMethods.wp(6)} height={UtilityMethods.wp(6)}/>
+    label: 'Save to phone',
+    value: 'save',
+    icon: (
+      <Icons.DownloadIcon
+        width={UtilityMethods.wp(6)}
+        height={UtilityMethods.wp(6)}
+      />
+    ),
   },
   {
-    label: "Upload",
-    value: "upload",
-    icon : <Icons.uploadIconBlack width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+    label: 'Upload',
+    value: 'upload',
+    icon: (
+      <Icons.uploadIconBlack
+        width={UtilityMethods.wp(5)}
+        height={UtilityMethods.wp(5)}
+      />
+    ),
   },
   {
-    label: "Delete",
-    value: "delete",
-    icon : <Icons.DeleteBlackIcon width={UtilityMethods.wp(5)} height={UtilityMethods.wp(5)}/>
+    label: 'Delete',
+    value: 'delete',
+    icon: (
+      <Icons.DeleteBlackIcon
+        width={UtilityMethods.wp(5)}
+        height={UtilityMethods.wp(5)}
+      />
+    ),
   },
- 
 ];

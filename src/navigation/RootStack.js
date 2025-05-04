@@ -1,13 +1,12 @@
 //================================ React Native Imported Files ======================================//
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {useEffect, useState} from 'react';
 /// ====================================== Local Imported Files ======================================//
-import Routes from "./Routes";
-import { AuthStack, DashboardStack } from "./Stacks";
-import { useSelector } from "react-redux";
-import { Splash, } from "../screens";
-
+import Routes from './Routes';
+import {AuthStack, DashboardStack} from './Stacks';
+import {useSelector} from 'react-redux';
+import {Splash} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,21 +29,29 @@ const RootStack = () => {
   useEffect(() => {
     // This will run on initial mount and whenever `user` or `initialLoading` changes
     if (!initialLoading) {
-      setInitialRoute((token) ? Routes.DASHBOARD_STACK : Routes.AUTH_STACK);
+      setInitialRoute(token ? Routes.DASHBOARD_STACK : Routes.AUTH_STACK);
     }
-  }, [token,initialLoading]); // Depend on `user` and `initialLoading`
-
-
- 
-  
+  }, [token, initialLoading]); // Depend on `user` and `initialLoading`
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false,
-      animation:"none"
-     }}>
-      {initialRoute === Routes.SPLASH && <Stack.Screen name={Routes.SPLASH} component={Splash} />}
-      {initialRoute === Routes.AUTH_STACK && <Stack.Screen name={Routes.AUTH_STACK} component={AuthStack} />}
-      {initialRoute === Routes.DASHBOARD_STACK && <Stack.Screen name={Routes.DASHBOARD_STACK} component={DashboardStack} />}
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'none',
+        gestureEnabled: false,
+      }}>
+      {initialRoute === Routes.SPLASH && (
+        <Stack.Screen name={Routes.SPLASH} component={Splash} />
+      )}
+      {initialRoute === Routes.AUTH_STACK && (
+        <Stack.Screen name={Routes.AUTH_STACK} component={AuthStack} />
+      )}
+      {initialRoute === Routes.DASHBOARD_STACK && (
+        <Stack.Screen
+          name={Routes.DASHBOARD_STACK}
+          component={DashboardStack}
+        />
+      )}
     </Stack.Navigator>
   );
 };
