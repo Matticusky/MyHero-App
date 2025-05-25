@@ -6,7 +6,6 @@ buildscript {
         targetSdkVersion = 34
         ndkVersion = "26.1.10909125"
         kotlinVersion = "1.9.22"
-        ffmpegKitPackage = "audio"
     }
     repositories {
         google()
@@ -18,5 +17,13 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
     }
 }
-
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir {
+            dirs "$rootDir/libs"
+        }
+    }
+}
 apply plugin: "com.facebook.react.rootproject"
