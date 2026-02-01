@@ -39,6 +39,10 @@
 	<string>UmboBooks needs microphone access of your phone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select images.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>UmboBooks uses Bluetooth to connect to MyHero devices for audio transfer.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>UmboBooks uses Bluetooth to connect to MyHero devices for audio transfer.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

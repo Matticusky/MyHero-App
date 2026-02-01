@@ -39,6 +39,10 @@ import AudioPlayComponent from "./AudioPlayComponent";
 import MaterialDropDown from "./MaterialDropDown";
 import ImageGallery from "./ImageGallery";
 import SyncWithRecorderModal from "./SyncWithRecorderModal";
+import DeviceCardComp from "./DeviceCardComp";
+import ScanningModal from "./ScanningModal";
+import FileListModal from "./FileListModal";
+import FileTransferModal from "./FileTransferModal";
 
 
 
@@ -82,4 +86,8 @@ export {
     MaterialDropDown,
     ImageGallery,
     SyncWithRecorderModal,
+    DeviceCardComp,
+    ScanningModal,
+    FileListModal,
+    FileTransferModal,
 }
