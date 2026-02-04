@@ -21,16 +21,15 @@ export const BLE_CONSTANTS = {
   FILE_LIST_UUID: '00000201-4D59-4842-8000-00805F9B34FB', // Read/Notify: [type:1][size:4][filename\0]
   FILE_DELETE_UUID: '00000202-4D59-4842-8000-00805F9B34FB', // Write: null-terminated filename
   TRANSFER_CONTROL_UUID: '00000203-4D59-4842-8000-00805F9B34FB', // Write/Notify: control commands
-  TRANSFER_DATA_UUID: '00000204-4D59-4842-8000-00805F9B34FB', // Write/Notify: Base64 chunks
+  TRANSFER_DATA_UUID: '00000204-4D59-4842-8000-00805F9B34FB', // Write/Read/Notify: Raw binary chunks (v1.2: max 244 bytes)
   TRANSFER_PROGRESS_UUID: '00000205-4D59-4842-8000-00805F9B34FB', // Read/Notify: [transferred:4][total:4]
 
   // Standard Battery Service
   BATTERY_SERVICE_UUID: '0000180F-0000-1000-8000-00805F9B34FB',
   BATTERY_LEVEL_UUID: '00002A19-0000-1000-8000-00805F9B34FB', // Read/Notify: uint8 0-100%
 
-  // Transfer settings
-  MAX_CHUNK_CHARS: 240, // Max Base64 characters per chunk
-  MAX_CHUNK_BYTES: 180, // 240 * 3/4 = 180 bytes decoded
+  // Transfer settings (v1.2: raw binary, no Base64)
+  MAX_CHUNK_BYTES: 490, // Max raw binary bytes per chunk (MTU 512 - overhead)
   AUTH_KEY_LENGTH: 32, // 32 bytes for authentication key
 
   // Timeouts
@@ -54,6 +53,13 @@ export const BLE_CONSTANTS = {
 
   // Storage root path on device (internal - device auto-prefixes filenames)
   STORAGE_ROOT: '/Storage/',
+
+  // Supported audio format
+  AUDIO_FORMAT: '.aac',
+  AUDIO_RECORDING_PATTERN: 'recording_NNNN.aac',
+
+  // MTU settings
+  PREFERRED_MTU: 512, // Device negotiates 512 for optimal throughput
 };
 
 // LocalStorage keys for BLE data persistence

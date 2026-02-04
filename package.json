@@ -37,6 +37,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.18.1",
     "react-native-image-crop-picker": "^0.41.2",
+    "react-native-keep-awake": "^4.0.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-mask-input": "^1.2.3",
     "react-native-modal-datetime-picker": "^17.1.0",

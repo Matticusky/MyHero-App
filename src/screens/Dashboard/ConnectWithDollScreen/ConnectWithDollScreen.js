@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native';
+import KeepAwake from 'react-native-keep-awake';
 
 import {
   Button,
@@ -188,20 +189,63 @@ const ConnectWithDollScreen = ({ navigation }) => {
     }
   }, [connectedDevice, dispatch]);
 
-  const convertToWav = async (inputPath, fileName) => {
+  const convertToAac = async (inputUri, fileName) => {
     const timestamp = Date.now();
     const baseName = fileName.replace(/\.[^.]+$/, '');
-    const outputPath = `${RNFS.CachesDirectoryPath}/${baseName}_${timestamp}.wav`;
+    const outputPath = `${RNFS.CachesDirectoryPath}/${baseName}_${timestamp}.aac`;
 
-    const command = `-i "${inputPath}" -acodec pcm_s16le -ar 44100 "${outputPath}"`;
+    // On Android, content:// URIs need to be copied to a local file first
+    let inputPath = inputUri;
+    const extension = fileName.split('.').pop() || 'tmp';
+    const tempInputPath = `${RNFS.CachesDirectoryPath}/${baseName}_${timestamp}_input.${extension}`;
+
+    if (Platform.OS === 'android' && inputUri.startsWith('content://')) {
+      try {
+        await RNFS.copyFile(inputUri, tempInputPath);
+        inputPath = tempInputPath;
+        console.log('Copied file to:', inputPath);
+      } catch (copyError) {
+        console.log('Failed to copy file:', copyError);
+        throw new Error('Failed to access audio file');
+      }
+    }
+
+    // Convert to AAC format (device expects .aac files per BLE_Integration_Guide.md)
+    // -y: overwrite output without asking
+    // -vn: no video (audio only)
+    // -c:a aac: use AAC codec
+    // -b:a 32k: 32kbps bitrate
+    // -ar 16000: 16kHz sample rate
+    // -ac 1: mono (1 channel)
+    const command = `-y -i "${inputPath}" -vn -c:a aac -b:a 32k -ar 16000 -ac 1 "${outputPath}"`;
+    console.log('FFmpeg command:', command);
 
     const session = await FFmpegKit.execute(command);
     const returnCode = await session.getReturnCode();
+    const output = await session.getOutput();
+    console.log('FFmpeg output:', output);
+
+    // Clean up temp input file
+    if (inputPath === tempInputPath) {
+      try {
+        await RNFS.unlink(tempInputPath);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    }
 
     if (ReturnCode.isSuccess(returnCode)) {
       return outputPath;
     }
+
+    console.log('FFmpeg failed with return code:', returnCode);
     throw new Error('Audio conversion failed');
+  };
+
+  // Generate short filename for upload (recording_NNNN.aac pattern)
+  const generateShortFilename = () => {
+    const num = Math.floor(Math.random() * 10000);
+    return `rec_${num.toString().padStart(4, '0')}.aac`;
   };
 
   const handleUploadFile = useCallback(async () => {
@@ -213,20 +257,38 @@ const ConnectWithDollScreen = ({ navigation }) => {
 
       const file = result[0];
       let filePath = file.uri;
-      let fileName = file.name || 'audio.wav';
+      // Generate a short filename for the device
+      let fileName = generateShortFilename();
 
-      // Check if WAV, convert if not
-      const isWav = fileName.toLowerCase().endsWith('.wav');
-      if (!isWav) {
-        AlertService.toastPrompt('Converting to WAV format...');
+      // Check if AAC, convert if not (device expects .aac files per BLE_Integration_Guide.md)
+      const originalName = file.name || 'audio.aac';
+      const isAac = originalName.toLowerCase().endsWith('.aac');
+      if (!isAac) {
+        AlertService.toastPrompt('Converting to AAC format...');
         try {
-          filePath = await convertToWav(filePath, fileName);
-          fileName = fileName.replace(/\.[^.]+$/, '.wav');
+          filePath = await convertToAac(filePath, originalName);
         } catch (convError) {
+          console.log('Conversion error:', convError);
           AlertService.toastPrompt('Failed to convert audio', 'error');
           return;
         }
+      } else if (Platform.OS === 'android' && filePath.startsWith('content://')) {
+        // AAC file but content:// URI - copy to local path
+        const timestamp = Date.now();
+        const localPath = `${RNFS.CachesDirectoryPath}/upload_${timestamp}.aac`;
+        try {
+          await RNFS.copyFile(filePath, localPath);
+          filePath = localPath;
+          console.log('Copied AAC file to:', filePath);
+        } catch (copyError) {
+          console.log('Failed to copy file:', copyError);
+          AlertService.toastPrompt('Failed to access audio file', 'error');
+          return;
+        }
       }
+
+      // Keep screen awake during transfer
+      KeepAwake.activate();
 
       // Start upload
       dispatch(
@@ -237,22 +299,28 @@ const ConnectWithDollScreen = ({ navigation }) => {
         })
       );
 
-      await BLEService.uploadFile(filePath, (progress) => {
-        dispatch(
-          setTransferProgress({
-            progress,
-            type: 'upload',
-            fileName: fileName,
-          })
-        );
-      });
+      try {
+        await BLEService.uploadFile(filePath, (progress) => {
+          dispatch(
+            setTransferProgress({
+              progress,
+              type: 'upload',
+              fileName: fileName,
+            })
+          );
+        }, fileName);
 
-      dispatch(clearTransferState());
-      AlertService.toastPrompt('File uploaded successfully');
+        dispatch(clearTransferState());
+        AlertService.toastPrompt('File uploaded successfully');
 
-      // Refresh file list
-      handleViewFiles();
+        // Refresh file list
+        handleViewFiles();
+      } finally {
+        // Allow screen to sleep again
+        KeepAwake.deactivate();
+      }
     } catch (error) {
+      KeepAwake.deactivate();
       dispatch(clearTransferState());
       if (!DocumentPicker.isCancel(error)) {
         console.log('Upload error:', error);
@@ -266,9 +334,15 @@ const ConnectWithDollScreen = ({ navigation }) => {
       console.log('=== handleDownloadFile START ===');
       console.log('File to download:', JSON.stringify(file));
 
+      // Keep screen awake during transfer
+      KeepAwake.activate();
+
       try {
-        const docsPath = RNFS.DocumentDirectoryPath;
-        const destinationPath = `${docsPath}/${file.name}`;
+        // Use Downloads folder on Android, Documents on iOS
+        const downloadPath = Platform.OS === 'android'
+          ? RNFS.DownloadDirectoryPath
+          : RNFS.DocumentDirectoryPath;
+        const destinationPath = `${downloadPath}/${file.name}`;
         console.log('Destination path:', destinationPath);
 
         dispatch(
@@ -294,12 +368,16 @@ const ConnectWithDollScreen = ({ navigation }) => {
 
         console.log('=== handleDownloadFile SUCCESS ===');
         dispatch(clearTransferState());
-        AlertService.toastPrompt(`Downloaded: ${file.name}`);
+        const folderName = Platform.OS === 'android' ? 'Downloads' : 'Documents';
+        AlertService.toastPrompt(`Saved to ${folderName}: ${file.name}`);
       } catch (error) {
         console.log('=== handleDownloadFile ERROR ===');
         console.log('Error:', error.message || error);
         dispatch(clearTransferState());
         AlertService.toastPrompt(error.message || 'Download failed', 'error');
+      } finally {
+        // Allow screen to sleep again
+        KeepAwake.deactivate();
       }
     },
     [dispatch]

@@ -10,6 +10,7 @@ class BLEServiceClass {
   constructor() {
     this.manager = new BleManager();
     this.connectedDevice = null;
+    this.negotiatedMTU = 23; // Default MTU
     this.scanSubscription = null;
     this.authStatusSubscription = null;
     this.fileListSubscription = null;
@@ -123,10 +124,10 @@ class BLEServiceClass {
         timeout: BLE_CONSTANTS.CONNECTION_TIMEOUT_MS,
       });
 
-      // Request larger MTU for data transfer (default is 23 bytes, we need 512 for 240-byte Base64 chunks)
+      // Request MTU 256 for optimal data transfer (v1.2: 244 byte chunks + overhead)
       if (Platform.OS === 'android') {
         try {
-          const mtu = await device.requestMTU(512);
+          const mtu = await device.requestMTU(BLE_CONSTANTS.PREFERRED_MTU);
           console.log('MTU negotiated:', mtu);
         } catch (mtuError) {
           console.log('MTU negotiation failed, using default:', mtuError.message);
@@ -374,7 +375,7 @@ class BLEServiceClass {
     });
   }
 
-  async uploadFile(filePath, onProgress) {
+  async uploadFile(filePath, onProgress, customFileName = null) {
     console.log('=== BLE UPLOAD START ===');
     if (!this.connectedDevice) {
       throw new Error('No device connected');
@@ -386,7 +387,7 @@ class BLEServiceClass {
     // Read file as base64
     const fileBase64 = await RNFS.readFile(filePath, 'base64');
     const fileBytes = Buffer.from(fileBase64, 'base64');
-    const fileName = filePath.split('/').pop();
+    const fileName = customFileName || filePath.split('/').pop();
     const fileSize = fileBytes.length;
 
     console.log('Starting upload:', fileName, 'size:', fileSize);
@@ -402,7 +403,7 @@ class BLEServiceClass {
           this.cleanupTransferSubscriptions();
           reject(new Error('Upload timeout'));
         }
-      }, 300000); // 5 minute timeout for large files
+      }, 1200000); // 20 minute timeout for large files
 
       const handleError = (errorMsg) => {
         if (!isCompleted) {
@@ -526,26 +527,42 @@ class BLEServiceClass {
 
         console.log('Sending file chunks...');
 
-        // Send file in Base64 chunks
-        const maxChunkBytes = BLE_CONSTANTS.MAX_CHUNK_BYTES; // 180 bytes per chunk
+        // v1.2: Send raw binary chunks (max 244 bytes each, no Base64 encoding)
+        // BLE library expects base64-encoded input which it decodes before sending
+        const maxChunkBytes = BLE_CONSTANTS.MAX_CHUNK_BYTES; // 244 bytes per chunk
         let offset = 0;
+        let chunkCount = 0;
 
         while (offset < fileBytes.length && !isCompleted) {
-          const chunk = fileBytes.subarray(offset, offset + maxChunkBytes);
-          const chunkBase64 = chunk.toString('base64');
+          const chunkEnd = Math.min(offset + maxChunkBytes, fileBytes.length);
+          const chunk = Buffer.from(fileBytes.slice(offset, chunkEnd));
 
-          await this.connectedDevice.writeCharacteristicWithResponseForService(
-            BLE_CONSTANTS.FILE_SERVICE_UUID,
-            BLE_CONSTANTS.TRANSFER_DATA_UUID,
-            chunkBase64
-          );
+          // BLE library expects base64 input, decodes it, and sends raw bytes to device
+          const dataForBLE = chunk.toString('base64');
+
+          console.log(`Sending chunk ${chunkCount}: ${chunk.length} raw bytes`);
+
+          try {
+            await this.connectedDevice.writeCharacteristicWithResponseForService(
+              BLE_CONSTANTS.FILE_SERVICE_UUID,
+              BLE_CONSTANTS.TRANSFER_DATA_UUID,
+              dataForBLE
+            );
+          } catch (writeErr) {
+            console.log(`Chunk ${chunkCount} write error:`, writeErr.message);
+            throw writeErr;
+          }
 
           offset += chunk.length;
+          chunkCount++;
 
           // Update progress locally
           if (onProgress) {
             onProgress(offset / fileBytes.length);
           }
+
+          // Small delay between chunks to prevent overwhelming the device
+          await new Promise(r => setTimeout(r, 10));
         }
 
         console.log('All chunks sent, waiting for complete notification');
@@ -557,7 +574,7 @@ class BLEServiceClass {
   }
 
   async downloadFile(fileName, destinationPath, onProgress) {
-    console.log('=== BLE DOWNLOAD START ===');
+    console.log('=== BLE DOWNLOAD START (Read-based flow v1.1) ===');
     console.log('fileName:', fileName);
     console.log('destinationPath:', destinationPath);
     console.log('connectedDevice:', this.connectedDevice?.id);
@@ -576,6 +593,7 @@ class BLEServiceClass {
       let expectedSize = 0;
       let receivedSize = 0;
       let isCompleted = false;
+      let chunkReadyResolve = null; // Used to signal when a chunk is ready to be read
 
       const timeout = setTimeout(() => {
         if (!isCompleted) {
@@ -583,7 +601,7 @@ class BLEServiceClass {
           this.cleanupTransferSubscriptions();
           reject(new Error('Download timeout'));
         }
-      }, 300000); // 5 minute timeout
+      }, 1200000); // 20 minute timeout
 
       const handleError = (errorMsg) => {
         if (!isCompleted) {
@@ -591,6 +609,9 @@ class BLEServiceClass {
           isCompleted = true;
           clearTimeout(timeout);
           this.cleanupTransferSubscriptions();
+          if (chunkReadyResolve) {
+            chunkReadyResolve({ error: true, message: errorMsg });
+          }
           reject(new Error(errorMsg));
         }
       };
@@ -619,8 +640,7 @@ class BLEServiceClass {
       };
 
       try {
-        // Subscribe to transfer control for status (Ready, Complete, Error)
-        // Note: Transfer Control only supports Write/Notify (not Read)
+        // Subscribe to transfer control for Complete/Error status
         console.log('Setting up Transfer Control subscription...');
         this.transferControlSubscription = this.connectedDevice.monitorCharacteristicForService(
           BLE_CONSTANTS.FILE_SERVICE_UUID,
@@ -641,32 +661,28 @@ class BLEServiceClass {
             const data = Buffer.from(characteristic.value, 'base64');
             console.log('Transfer Control data:', Array.from(data));
             const status = data[0];
-            console.log('Transfer Control status byte:', status, '(0=Error, 1=Ready, 2=Complete)');
+            console.log('Transfer Control status byte:', status, '(0=Error, 2=Complete)');
 
             if (status === BLE_CONSTANTS.TRANSFER_STATUS_ERROR) {
               const errorCode = data.length > 1 ? data.readUInt32LE(1) : 0;
               console.log('Device returned error code:', errorCode);
               handleError('Download failed - device error code: ' + errorCode);
-            } else if (status === BLE_CONSTANTS.TRANSFER_STATUS_READY) {
-              expectedSize = data.readUInt32LE(1);
-              console.log('Device READY, file size:', expectedSize, 'bytes');
             } else if (status === BLE_CONSTANTS.TRANSFER_STATUS_COMPLETE) {
               console.log('Device signaled COMPLETE');
               handleComplete();
-            } else {
-              console.log('Unknown status byte:', status);
             }
           }
         );
         console.log('Transfer Control subscription created');
 
-        // Subscribe to transfer data for incoming chunks
-        // Note: Transfer Data only supports Write/Notify (not Read)
-        console.log('Setting up Transfer Data subscription...');
+        // Subscribe to Transfer Data for Ready signals (read-based flow per v1.1)
+        // Transfer Data notifies with [0x01][size:4] when chunk is ready to be READ
+        console.log('Setting up Transfer Data subscription (Ready signals)...');
         this.transferDataSubscription = this.connectedDevice.monitorCharacteristicForService(
           BLE_CONSTANTS.FILE_SERVICE_UUID,
           BLE_CONSTANTS.TRANSFER_DATA_UUID,
           (error, characteristic) => {
+            console.log('--- Transfer Data notification ---');
             if (error) {
               console.log('Transfer Data ERROR:', error.message || error);
               return;
@@ -679,17 +695,32 @@ class BLEServiceClass {
               return;
             }
 
-            // Decode the Base64 chunk from the notification
-            const decodedChunk = Buffer.from(characteristic.value, 'base64');
-            chunks.push(decodedChunk);
-            receivedSize += decodedChunk.length;
+            // Parse Ready notification: [status:1][size:4]
+            const data = Buffer.from(characteristic.value, 'base64');
+            console.log('Transfer Data notification bytes:', Array.from(data));
 
-            console.log('Data chunk received:', decodedChunk.length, 'bytes, total:', receivedSize, '/', expectedSize);
+            if (data.length >= 5) {
+              const status = data[0];
+              const size = data.readUInt32LE(1);
 
-            if (onProgress && expectedSize > 0) {
-              const progress = receivedSize / expectedSize;
-              console.log('Progress:', Math.round(progress * 100) + '%');
-              onProgress(progress);
+              if (status === BLE_CONSTANTS.TRANSFER_STATUS_ERROR) {
+                console.log('Transfer Data error notification');
+                handleError('Download failed - transfer data error');
+              } else if (status === BLE_CONSTANTS.TRANSFER_STATUS_READY) {
+                // First notification: size = file size
+                // Subsequent notifications: size = chunk length
+                if (expectedSize === 0) {
+                  expectedSize = size;
+                  console.log('File size:', expectedSize, 'bytes');
+                } else {
+                  console.log('Chunk ready, length:', size, 'bytes');
+                }
+
+                // Signal that a chunk is ready to be read
+                if (chunkReadyResolve) {
+                  chunkReadyResolve({ ready: true, size });
+                }
+              }
             }
           }
         );
@@ -752,8 +783,72 @@ class BLEServiceClass {
           BLE_CONSTANTS.TRANSFER_CONTROL_UUID,
           commandBuffer.toString('base64')
         );
+        console.log('Download command sent successfully');
 
-        console.log('Download command sent successfully, waiting for device response...');
+        // Helper to wait for chunk ready notification
+        const waitForChunkReady = () => {
+          return new Promise((resolveWait) => {
+            chunkReadyResolve = resolveWait;
+            // Timeout for individual chunk wait
+            setTimeout(() => {
+              if (chunkReadyResolve === resolveWait) {
+                resolveWait({ timeout: true });
+              }
+            }, 30000);
+          });
+        };
+
+        // Read-based download loop: wait for Ready notification, then read chunk
+        console.log('Starting read-based download loop...');
+        while (!isCompleted) {
+          // Wait for Ready notification from Transfer Data
+          console.log('Waiting for chunk ready notification...');
+          const result = await waitForChunkReady();
+
+          if (result.error) {
+            console.log('Error while waiting for chunk:', result.message);
+            break;
+          }
+
+          if (result.timeout) {
+            console.log('Chunk wait timeout - checking if transfer completed');
+            // Check if we've received all data
+            if (receivedSize >= expectedSize && expectedSize > 0) {
+              console.log('All data received, triggering complete');
+              handleComplete();
+            }
+            break;
+          }
+
+          if (isCompleted) break;
+
+          // Read the raw binary chunk from Transfer Data characteristic
+          console.log('Reading chunk from Transfer Data...');
+          try {
+            const char = await this.connectedDevice.readCharacteristicForService(
+              BLE_CONSTANTS.FILE_SERVICE_UUID,
+              BLE_CONSTANTS.TRANSFER_DATA_UUID
+            );
+
+            if (char?.value) {
+              // BLE library returns data as base64, decode to get raw binary from device
+              const rawChunk = Buffer.from(char.value, 'base64');
+              chunks.push(rawChunk);
+              receivedSize += rawChunk.length;
+
+              console.log('Chunk read:', rawChunk.length, 'bytes, total:', receivedSize, '/', expectedSize);
+
+              if (onProgress && expectedSize > 0) {
+                const progress = receivedSize / expectedSize;
+                console.log('Progress:', Math.round(progress * 100) + '%');
+                onProgress(progress);
+              }
+            }
+          } catch (readErr) {
+            console.log('Error reading chunk:', readErr.message);
+            // Continue waiting for next notification
+          }
+        }
       } catch (error) {
         console.log('=== DOWNLOAD EXCEPTION ===');
         console.log('Error:', error.message || error);
