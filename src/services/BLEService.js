@@ -574,7 +574,7 @@ class BLEServiceClass {
   }
 
   async downloadFile(fileName, destinationPath, onProgress) {
-    console.log('=== BLE DOWNLOAD START (Read-based flow v1.1) ===');
+    console.log('=== BLE DOWNLOAD START (Read-based flow) ===');
     console.log('fileName:', fileName);
     console.log('destinationPath:', destinationPath);
     console.log('connectedDevice:', this.connectedDevice?.id);
@@ -593,11 +593,14 @@ class BLEServiceClass {
       let expectedSize = 0;
       let receivedSize = 0;
       let isCompleted = false;
-      let chunkReadyResolve = null; // Used to signal when a chunk is ready to be read
+
+      // Queue-based approach to handle notifications that arrive before we start waiting
+      const readyQueue = [];
+      let chunkReadyResolve = null;
 
       const timeout = setTimeout(() => {
         if (!isCompleted) {
-          console.log('ERROR: Download timeout after 5 minutes');
+          console.log('ERROR: Download timeout');
           this.cleanupTransferSubscriptions();
           reject(new Error('Download timeout'));
         }
@@ -631,11 +634,35 @@ class BLEServiceClass {
             console.log('Writing file, buffer size:', fileBuffer.length);
             await RNFS.writeFile(destinationPath, fileBuffer.toString('base64'), 'base64');
             console.log('File written successfully to:', destinationPath);
+
+            // Trigger MediaStore scan on Android so file appears in Downloads
+            if (Platform.OS === 'android') {
+              try {
+                await RNFS.scanFile(destinationPath);
+                console.log('MediaStore scan completed for:', destinationPath);
+              } catch (scanError) {
+                console.log('MediaStore scan failed (file still saved):', scanError.message);
+              }
+            }
+
             resolve(destinationPath);
           } catch (writeError) {
             console.log('ERROR writing file:', writeError);
             reject(new Error('Failed to save file'));
           }
+        }
+      };
+
+      // Signal that a chunk is ready - either resolve waiting promise or queue it
+      const signalChunkReady = (result) => {
+        if (chunkReadyResolve) {
+          const resolver = chunkReadyResolve;
+          chunkReadyResolve = null;
+          resolver(result);
+        } else {
+          // No one waiting yet, queue it
+          readyQueue.push(result);
+          console.log('Queued ready signal, queue length:', readyQueue.length);
         }
       };
 
@@ -675,7 +702,7 @@ class BLEServiceClass {
         );
         console.log('Transfer Control subscription created');
 
-        // Subscribe to Transfer Data for Ready signals (read-based flow per v1.1)
+        // Subscribe to Transfer Data for Ready signals (read-based flow)
         // Transfer Data notifies with [0x01][size:4] when chunk is ready to be READ
         console.log('Setting up Transfer Data subscription (Ready signals)...');
         this.transferDataSubscription = this.connectedDevice.monitorCharacteristicForService(
@@ -717,9 +744,7 @@ class BLEServiceClass {
                 }
 
                 // Signal that a chunk is ready to be read
-                if (chunkReadyResolve) {
-                  chunkReadyResolve({ ready: true, size });
-                }
+                signalChunkReady({ ready: true, size });
               }
             }
           }
@@ -746,7 +771,6 @@ class BLEServiceClass {
               );
               if (char?.value) {
                 const data = Buffer.from(char.value, 'base64');
-                console.log('Progress data:', Array.from(data));
                 if (data.length >= 8) {
                   const transferred = data.readUInt32LE(0);
                   const total = data.readUInt32LE(4);
@@ -764,8 +788,8 @@ class BLEServiceClass {
         console.log('Transfer Progress subscription created');
 
         // Wait for subscriptions to be established
-        console.log('Waiting 500ms for subscriptions to establish...');
-        await new Promise(r => setTimeout(r, 500));
+        console.log('Waiting 300ms for subscriptions to establish...');
+        await new Promise(r => setTimeout(r, 300));
 
         // Build download command: [0x02][filename\0]
         const fileNameBytes = Buffer.from(fileName + '\0', 'utf-8');
@@ -785,13 +809,22 @@ class BLEServiceClass {
         );
         console.log('Download command sent successfully');
 
-        // Helper to wait for chunk ready notification
+        // Helper to wait for chunk ready notification (checks queue first)
         const waitForChunkReady = () => {
+          // Check if there's already a queued signal
+          if (readyQueue.length > 0) {
+            const result = readyQueue.shift();
+            console.log('Using queued ready signal, remaining in queue:', readyQueue.length);
+            return Promise.resolve(result);
+          }
+
+          // Wait for notification
           return new Promise((resolveWait) => {
             chunkReadyResolve = resolveWait;
             // Timeout for individual chunk wait
             setTimeout(() => {
               if (chunkReadyResolve === resolveWait) {
+                chunkReadyResolve = null;
                 resolveWait({ timeout: true });
               }
             }, 30000);
