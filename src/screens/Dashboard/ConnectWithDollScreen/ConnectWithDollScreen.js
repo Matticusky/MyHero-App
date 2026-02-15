@@ -137,7 +137,7 @@ const ConnectWithDollScreen = ({ navigation }) => {
     try {
       await BLEService.disconnectDevice();
       dispatch(disconnectDevice());
-      AlertService.toastPrompt('Device disconnected');
+      // Toast is handled by BLEService.onDisconnected callback
     } catch (error) {
       AlertService.toastPrompt(error.message, 'error');
     }

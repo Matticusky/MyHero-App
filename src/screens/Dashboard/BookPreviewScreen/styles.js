@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    syncButtonConnected: {
+        backgroundColor: Colors.parotGreen,
+    },
     syncButtonText: {
         fontSize: FontSize.VALUE(16),
         fontFamily: Fonts.SEMI_BOLD,

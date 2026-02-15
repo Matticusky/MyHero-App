@@ -58,6 +58,10 @@ export const BLE_CONSTANTS = {
   AUDIO_FORMAT: '.aac',
   AUDIO_RECORDING_PATTERN: 'recording_NNNN.aac',
 
+  // Auto-connect settings
+  AUTO_CONNECT_RETRY_MS: 15000, // Retry scan every 15s when disconnected
+  AUTO_CONNECT_INITIAL_DELAY_MS: 2000, // Wait 2s after mount before first scan
+
   // MTU settings
   PREFERRED_MTU: 512, // Device negotiates 512 for optimal throughput
 };

@@ -1,4 +1,12 @@
-import {TouchableOpacity, View, Text, FlatList, Alert} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  FlatList,
+  Alert,
+  Platform,
+} from 'react-native';
 import styles from './styles';
 import {
   AudioPlayComponent,
@@ -8,219 +16,265 @@ import {
   MainLayout,
   MaterialDropDown,
   SyncWithRecorderModal,
+  FileTransferModal,
 } from '../../../components';
-import {audioData, bookPreviewDotNenu} from '../../../Data/DummyData';
+import {bookPreviewDotNenu} from '../../../Data/DummyData';
 import Routes from '../../../navigation/Routes';
-import {useContext, useEffect, useState} from 'react';
-import {AUDIO_CONTEXT} from '../../../../App';
 import {FontSize} from '../../../utility';
+import {removeAudioFile} from '../../../redux/Reducers/AudioReducer';
 import {useIsFocused} from '@react-navigation/native';
-import TcpSocket from 'react-native-tcp-socket';
+import {useSelector, useDispatch} from 'react-redux';
 import RNFS from 'react-native-fs';
-import {Buffer} from 'buffer';
+import {FFmpegKit, ReturnCode} from 'ffmpeg-kit-react-native';
+import KeepAwake from 'react-native-keep-awake';
+import BLEService from '../../../services/BLEService';
+import AlertService from '../../../services/AlertService';
+import {
+  setTransferProgress,
+  clearTransferState,
+} from '../../../redux/Reducers/BLEReducer';
 
 const BookPreviewScreen = ({navigation, route}) => {
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const book = route?.params?.item;
-  let {audioFiles, setAudioFiles} = useContext(AUDIO_CONTEXT);
+  const audioFiles = useSelector(state => state.audio.audioFiles);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loader, setLoader] = useState(false);
-
   const [bookAudios, setBookAudios] = useState([]);
 
-  const ESP32_IP = '192.168.4.1'; // Default IP if ESP32 is in AP mode
-  const ESP32_PORT = 8080;
-  let client = null;
-  const [isConnected, setIsConnected] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const {
+    connectedDevice,
+    pairedDevices,
+    transferProgress,
+    transferType,
+    transferFileName,
+  } = useSelector(state => state.ble);
 
   useEffect(() => {
-    const bookAudios = audioFiles.filter(item => item.bookId === book._id);
-    setBookAudios(bookAudios);
+    const filtered = audioFiles.filter(item => item.bookId === book._id);
+    setBookAudios(filtered);
+  }, [isFocused, audioFiles]);
 
-    return () => {
-      if (client) {
-        client.destroy();
-      }
-    };
-  }, [isFocused]);
+  // Build a trackable filename: book slug + audio id
+  const buildDeviceFileName = useCallback(
+    audioId => {
+      const slug = (book?.title || 'book')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .slice(0, 16);
+      const shortId = String(audioId || '').slice(-6);
+      return `${slug}_${shortId}.aac`;
+    },
+    [book],
+  );
 
-  const handleSyncWithRecorder = async audioPath => {
-    try {
-      setLoader(true);
-      const fileData = await RNFS.readFile(audioPath, 'base64');
-      const binaryData = Buffer.from(fileData, 'base64');
-      const deviceIp = '192.168.89.162';
-      const chunkSize = 4096;
-      let offset = 0;
-
-      const client = TcpSocket.createConnection(
-        {
-          host: deviceIp,
-          port: 80,
-          keepAlive: true,
-          timeout: 90000,
-          noDelay: true,
-        },
-        () => {
-          console.log('Connected to ESP32!');
-
-          const sendNextChunk = () => {
-            if (offset < binaryData.length) {
-              const end = Math.min(offset + chunkSize, binaryData.length);
-              const chunk = binaryData.slice(offset, end);
-              client.write(chunk);
-              client.once('data', data => {
-                if (
-                  data.toString().trim() === 'OK' ||
-                  data.toString().trim() === 'OKOK'
-                ) {
-                  console.log('Chunk acknowledged, sending next chunk');
-                  offset = end;
-                  sendNextChunk();
-                } else {
-                  console.error('Unexpected response:', data.toString());
-                }
-              });
-            } else {
-              client.write(Buffer.from('ND'));
-              console.log('File sent successfully');
-              client.destroy();
-            }
-          };
-
-          sendNextChunk();
-        },
-      );
-
-      client.on('error', error => {
-        console.error('Connection error:', error);
-      });
-
-      client.on('close', () => {
-        console.log('Connection closed');
-        setLoader(false);
-      });
-    } catch (error) {
-      Alert.alert('Failed to send file to device', error.message);
-    } finally {
-      setLoader(false);
+  // Strip file:// URI prefix to get a plain path for RNFS
+  const toPlainPath = uri => {
+    if (typeof uri === 'string' && uri.startsWith('file://')) {
+      return uri.replace(/^file:\/\/+/, '/');
     }
+    return uri;
   };
 
-  // Connect to ESP32
-  const connectToESP32 = () => {
-    try {
-      client = TcpSocket.createConnection(
-        {
-          host: ESP32_IP,
-          port: ESP32_PORT,
-        },
-        () => {
-          console.log('Connected to ESP32');
-          setIsConnected(true);
-          Alert.alert('Connected', 'Successfully connected to ESP32');
-        },
-      );
+  const convertToAac = useCallback(async (inputUri, fileName) => {
+    const timestamp = Date.now();
+    const baseName = fileName.replace(/\.[^.]+$/, '');
+    const outputPath = `${RNFS.CachesDirectoryPath}/${baseName}_${timestamp}.aac`;
 
-      client.on('error', error => {
-        console.error('Connection error', error);
-        setIsConnected(false);
-        Alert.alert('Connection Error', 'Failed to connect to ESP32');
-      });
+    let inputPath = toPlainPath(inputUri);
+    const extension = fileName.split('.').pop() || 'tmp';
+    const tempInputPath = `${RNFS.CachesDirectoryPath}/${baseName}_${timestamp}_input.${extension}`;
 
-      client.on('close', () => {
-        console.log('Connection closed');
-        setIsConnected(false);
-      });
+    if (Platform.OS === 'android' && inputUri.startsWith('content://')) {
+      try {
+        await RNFS.copyFile(inputUri, tempInputPath);
+        inputPath = tempInputPath;
+      } catch (copyError) {
+        throw new Error('Failed to access audio file');
+      }
+    }
 
-      client.on('data', data => {
-        console.log('Received from ESP32:', data.toString());
-        if (data.toString().includes('UPLOAD_SUCCESS')) {
-          Alert.alert('Success', 'Audio file transferred successfully!');
-          setIsUploading(false);
-          setUploadProgress(0);
-        }
-      });
-    } catch (error) {
-      console.error('Failed to create connection', error);
+    console.log('AAC conversion input:', inputPath);
+    const command = `-y -i "${inputPath}" -vn -c:a aac -b:a 32k -ar 16000 -ac 1 "${outputPath}"`;
+    const session = await FFmpegKit.execute(command);
+    const returnCode = await session.getReturnCode();
+
+    if (inputPath === tempInputPath) {
+      try {
+        await RNFS.unlink(tempInputPath);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    }
+
+    if (ReturnCode.isSuccess(returnCode)) {
+      console.log('AAC conversion output:', outputPath);
+      return outputPath;
+    }
+
+    const output = await session.getOutput();
+    console.log('FFmpeg AAC conversion failed:', output);
+    throw new Error('Audio conversion failed');
+  }, []);
+
+  const promptConnectDevice = useCallback(() => {
+    if (pairedDevices.length > 1) {
+      // Multiple paired devices — let user choose which to connect
+      const buttons = pairedDevices.map(d => ({
+        text: d.name || d.id,
+        onPress: () => navigation.navigate(Routes.ConnectWithDollScreen),
+      }));
+      buttons.push({text: 'Cancel', style: 'cancel'});
+
       Alert.alert(
-        'Connection Error',
-        'Failed to establish connection to ESP32',
+        'No Device Connected',
+        'Choose a device to connect to:',
+        buttons,
       );
-    } finally {
-      setLoader(false);
+    } else {
+      Alert.alert(
+        'No Device Connected',
+        'Please connect to a MyHero device first.',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {
+            text: 'Connect',
+            onPress: () => navigation.navigate(Routes.ConnectWithDollScreen),
+          },
+        ],
+      );
     }
-  };
+  }, [pairedDevices, navigation]);
 
-  // Transfer audio file to ESP32
-  const transferAudioToESP32 = async recordedFilePath => {
-    if (!isConnected) {
-      Alert.alert('Not Connected', 'Please connect to ESP32 first');
-      return;
-    }
-
-    if (!recordedFilePath) {
-      Alert.alert('No Recording', 'Please record audio first');
-      return;
-    }
-
-    try {
-      setLoader(true);
-      setIsUploading(true);
-      setUploadProgress(0);
-
-      // Read the file content
-      const fileContent = await RNFS.readFile(recordedFilePath, 'base64');
-
-      // File size for progress calculation
-      const stats = await RNFS.stat(recordedFilePath);
-      const fileSize = stats.size;
-
-      // Prepare file transfer header with metadata
-      const fileHeader = JSON.stringify({
-        fileName: 'recording.wav',
-        fileSize: fileSize,
-        fileType: 'audio/wav',
-        encoding: 'base64',
-      });
-
-      // Send header first
-      client?.write(fileHeader + '\n');
-
-      // Send file in chunks to avoid memory issues
-      const chunkSize = 4096; // 4KB chunks
-      const totalChunks = Math.ceil(fileContent.length / chunkSize);
-
-      for (let i = 0; i < totalChunks; i++) {
-        const chunk = fileContent.substring(i * chunkSize, (i + 1) * chunkSize);
-
-        // Send chunk
-        client?.write(chunk);
-
-        // Update progress
-        const progress = Math.min(((i + 1) / totalChunks) * 100, 99);
-        setUploadProgress(progress);
-
-        // Small delay to prevent overwhelming the ESP32
-        await new Promise(resolve => setTimeout(resolve, 10));
+  const uploadAudioToDevice = useCallback(
+    async (audioPath, audioId) => {
+      if (!connectedDevice) {
+        promptConnectDevice();
+        return;
       }
 
-      // Send end of file marker
-      client?.write('\nEND_OF_FILE\n');
+      if (!audioPath) {
+        AlertService.toastPrompt('No audio file found', 'error');
+        return;
+      }
 
-      console.log('File transfer initiated');
+      try {
+        setLoader(true);
+        KeepAwake.activate();
 
-      // The final confirmation comes from the ESP32's response in the data event handler
-    } catch (error) {
-      console.error('Failed to transfer file', error);
-      setIsUploading(false);
-      Alert.alert('Transfer Error', 'Failed to transfer audio file');
-    } finally {
-      setLoader(false);
+        const normalizedPath = toPlainPath(audioPath);
+        const deviceFileName = buildDeviceFileName(audioId);
+        console.log('Uploading to device:', deviceFileName, 'from:', normalizedPath);
+
+        // Check if file already exists on device and delete it
+        try {
+          const files = await BLEService.listFiles();
+          const existing = files.find(f => f.name === deviceFileName);
+          if (existing) {
+            console.log('Replacing existing file on device:', deviceFileName);
+            await BLEService.deleteFile(deviceFileName);
+          }
+        } catch (listError) {
+          console.log('List files check skipped:', listError.message);
+        }
+
+        // Convert to AAC if needed
+        let filePath = normalizedPath;
+        const originalName = normalizedPath.split('/').pop() || 'audio.aac';
+        const isAac = originalName.toLowerCase().endsWith('.aac');
+
+        if (!isAac) {
+          AlertService.toastPrompt('Converting to AAC format...');
+          filePath = await convertToAac(normalizedPath, originalName);
+        } else if (
+          Platform.OS === 'android' &&
+          audioPath.startsWith('content://')
+        ) {
+          const localPath =
+            `${RNFS.CachesDirectoryPath}/upload_${Date.now()}.aac`;
+          await RNFS.copyFile(audioPath, localPath);
+          filePath = localPath;
+        }
+
+        dispatch(
+          setTransferProgress({
+            progress: 0,
+            type: 'upload',
+            fileName: deviceFileName,
+          }),
+        );
+
+        await BLEService.uploadFile(
+          filePath,
+          progress => {
+            dispatch(
+              setTransferProgress({
+                progress,
+                type: 'upload',
+                fileName: deviceFileName,
+              }),
+            );
+          },
+          deviceFileName,
+        );
+
+        dispatch(clearTransferState());
+        AlertService.toastPrompt('Recording sent to device');
+      } catch (error) {
+        dispatch(clearTransferState());
+        console.log('Upload to device error:', error);
+        AlertService.toastPrompt(
+          error.message || 'Failed to send recording',
+          'error',
+        );
+      } finally {
+        setLoader(false);
+        KeepAwake.deactivate();
+      }
+    },
+    [connectedDevice, dispatch, buildDeviceFileName, promptConnectDevice, convertToAac],
+  );
+
+  const handleSyncWithRecorder = useCallback(
+    async audioPath => {
+      // Find the audio item to get its _id for trackable naming
+      const audioItem = bookAudios.find(a => a.audioPath === audioPath);
+      await uploadAudioToDevice(audioPath, audioItem?._id).catch(err => {
+        console.log('Sync error:', err);
+        AlertService.toastPrompt(
+          err.message || 'Failed to send recording',
+          'error',
+        );
+      });
+    },
+    [bookAudios, uploadAudioToDevice],
+  );
+
+  const handleSyncButtonPress = () => {
+    if (!connectedDevice) {
+      promptConnectDevice();
+      return;
     }
+
+    if (bookAudios.length === 0) {
+      AlertService.toastPrompt('No recordings to sync', 'error');
+      return;
+    }
+
+    setModalVisible(true);
   };
+
+  const handleCancelTransfer = useCallback(async () => {
+    try {
+      await BLEService.cancelTransfer();
+      dispatch(clearTransferState());
+      AlertService.toastPrompt('Transfer cancelled');
+    } catch (error) {
+      console.log('Cancel transfer error:', error);
+      dispatch(clearTransferState());
+    }
+  }, [dispatch]);
 
   const onPressMenu = value => {
     switch (value) {
@@ -258,7 +312,6 @@ const BookPreviewScreen = ({navigation, route}) => {
       {text: 'Yes'},
     ]);
   };
-  const filterAudios = () => {};
 
   const RightDotButton = () => {
     return (
@@ -286,13 +339,13 @@ const BookPreviewScreen = ({navigation, route}) => {
             {book.title}
           </Text>
           <TouchableOpacity
-            style={styles.syncButton}
-            onPress={() => {
-              // setModalVisible(true);
-              connectToESP32();
-            }}>
+            style={[
+              styles.syncButton,
+              connectedDevice && styles.syncButtonConnected,
+            ]}
+            onPress={handleSyncButtonPress}>
             <Text style={styles.syncButtonText}>
-              {isConnected ? 'Connected ' : 'Sync With Recorder'}
+              {connectedDevice ? 'Send to Device' : 'Sync With Recorder'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -311,9 +364,9 @@ const BookPreviewScreen = ({navigation, route}) => {
             user={item?.user}
             audioUri={item?.audioPath}
             duration={item?.duration}
-            setAudioFiles={setAudioFiles}
+            onDeleteAudio={id => dispatch(removeAudioFile(id))}
             setBookAudios={setBookAudios}
-            handleSyncWithRecorder={transferAudioToESP32}
+            handleSyncWithRecorder={handleSyncWithRecorder}
           />
         )}
         ListEmptyComponent={
@@ -336,7 +389,15 @@ const BookPreviewScreen = ({navigation, route}) => {
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
         data={bookAudios}
-        onSync={transferAudioToESP32}
+        onSync={handleSyncWithRecorder}
+      />
+
+      <FileTransferModal
+        isVisible={transferType !== null}
+        progress={transferProgress}
+        type={transferType}
+        fileName={transferFileName}
+        onCancel={handleCancelTransfer}
       />
     </MainLayout>
   );

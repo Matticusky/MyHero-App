@@ -5,6 +5,9 @@ import RNFS from 'react-native-fs';
 import { PERMISSIONS, request, RESULTS, check } from 'react-native-permissions';
 import LocalStorage from '../utility/LocalStorage';
 import { BLE_CONSTANTS, BLE_STORAGE_KEYS } from '../utility/BLEConstants';
+import store from '../redux/Store';
+import { disconnectDevice as disconnectDeviceAction } from '../redux/Reducers/BLEReducer';
+import AlertService from './AlertService';
 
 class BLEServiceClass {
   constructor() {
@@ -139,9 +142,13 @@ class BLEServiceClass {
 
       // Set up disconnection listener
       device.onDisconnected((error, disconnectedDevice) => {
-        console.log('Device disconnected:', disconnectedDevice?.id);
+        console.log('Device disconnected:', disconnectedDevice?.id, 'Error:', error?.message || 'none');
         this.connectedDevice = null;
         this.cleanupSubscriptions();
+
+        // Sync Redux state so all screens reflect disconnection
+        store.dispatch(disconnectDeviceAction());
+        AlertService.toastPrompt('Device disconnected', 'error');
       });
 
       return device;

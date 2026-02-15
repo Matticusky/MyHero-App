@@ -1,14 +1,14 @@
 import {Alert, BackHandler, StyleSheet, Text, View} from 'react-native';
 import {Header, ImageGallery, MainLayout} from '../../../components';
 import AudioRecordComponent from '../../../components/AudioRecordComponent';
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Colors} from '../../../assets';
-import {useSelector} from 'react-redux';
-import {AUDIO_CONTEXT} from '../../../../App';
+import {useSelector, useDispatch} from 'react-redux';
+import {addAudioFile} from '../../../redux/Reducers/AudioReducer';
 import {FFmpegKit} from 'ffmpeg-kit-react-native';
 
 const RecordAudioScreen = ({navigation, route}) => {
-  let {setAudioFiles} = useContext(AUDIO_CONTEXT);
+  const dispatch = useDispatch();
   const bookId = route?.params?.bookId;
   const user = useSelector(state => state.auth.user);
   const [audioPath, setAudioPath] = useState('');
@@ -78,7 +78,7 @@ const RecordAudioScreen = ({navigation, route}) => {
           name: `${user.firstName} ${user.lastName}`,
         },
       };
-      setAudioFiles(pre => [...pre, data]);
+      dispatch(addAudioFile(data));
       navigation.goBack();
     } catch (error) {
       console.log(error);

@@ -43,6 +43,7 @@ import DeviceCardComp from "./DeviceCardComp";
 import ScanningModal from "./ScanningModal";
 import FileListModal from "./FileListModal";
 import FileTransferModal from "./FileTransferModal";
+import BLEAutoConnect from "./BLEAutoConnect";
 
 
 
@@ -90,4 +91,5 @@ export {
     ScanningModal,
     FileListModal,
     FileTransferModal,
+    BLEAutoConnect,
 }

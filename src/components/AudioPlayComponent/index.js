@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 const audioRecorderPlayer = new AudioRecorderPlayer();
 
-const AudioPlayComponent = ({_id, audioUri, duration, user,setAudioFiles,setBookAudios,handleSyncWithRecorder }) => {
+const AudioPlayComponent = ({_id, audioUri, duration, user,onDeleteAudio,setBookAudios,handleSyncWithRecorder }) => {
     const [loader, setLoader] = useState(false)
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentPositionSec, setCurrentPositionSec] = useState(0);
@@ -124,10 +124,8 @@ const AudioPlayComponent = ({_id, audioUri, duration, user,setAudioFiles,setBook
 
     const filterAudios = () =>{
         audioRecorderPlayer.stopPlayer();
-        setAudioFiles(prevAudioFiles => 
-            prevAudioFiles.filter(audioFile => audioFile._id !== _id)
-          );
-          setBookAudios(prevAudioFiles => 
+        onDeleteAudio(_id);
+        setBookAudios(prevAudioFiles =>
             prevAudioFiles.filter(audioFile => audioFile._id !== _id)
           );
     }

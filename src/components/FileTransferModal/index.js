@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Modal, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, Modal, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Progress from 'react-native-progress';
-import { Colors, Fonts, Icons } from '../../assets';
-import { FontSize, UtilityMethods } from '../../utility';
+import {Colors, Fonts, Icons} from '../../assets';
+import {FontSize, UtilityMethods} from '../../utility';
 
 const FileTransferModal = ({
   isVisible,
@@ -11,11 +11,40 @@ const FileTransferModal = ({
   fileName,
   onCancel,
 }) => {
+  const isComplete = (progress || 0) >= 1;
+  const dismissTimer = useRef(null);
+
+  // Auto-dismiss after completion
+  useEffect(() => {
+    if (isComplete && isVisible) {
+      dismissTimer.current = setTimeout(() => {
+        onCancel?.();
+      }, 1500);
+    }
+    return () => {
+      if (dismissTimer.current) {
+        clearTimeout(dismissTimer.current);
+      }
+    };
+  }, [isComplete, isVisible, onCancel]);
+
+  const titleText = isComplete
+    ? type === 'upload'
+      ? 'Upload Complete'
+      : 'Download Complete'
+    : type === 'upload'
+    ? 'Uploading'
+    : 'Downloading';
+
   return (
     <Modal visible={isVisible} transparent={true} animationType="fade">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <View style={styles.iconContainer}>
+          <View
+            style={[
+              styles.iconContainer,
+              isComplete && styles.iconContainerComplete,
+            ]}>
             {type === 'upload' ? (
               <Icons.UploadIcon
                 width={UtilityMethods.wp(8)}
@@ -29,9 +58,7 @@ const FileTransferModal = ({
             )}
           </View>
 
-          <Text style={styles.title}>
-            {type === 'upload' ? 'Uploading' : 'Downloading'}
-          </Text>
+          <Text style={styles.title}>{titleText}</Text>
 
           <Text style={styles.fileName} numberOfLines={1}>
             {fileName}
@@ -41,7 +68,7 @@ const FileTransferModal = ({
             <Progress.Bar
               progress={progress || 0}
               width={UtilityMethods.wp(60)}
-              color={Colors.BLACK}
+              color={isComplete ? Colors.parotGreen : Colors.BLACK}
               unfilledColor={Colors.LIGHT_GRAY}
               borderWidth={0}
               height={UtilityMethods.hp(1)}
@@ -49,13 +76,19 @@ const FileTransferModal = ({
             />
           </View>
 
-          <Text style={styles.percentage}>
+          <Text
+            style={[
+              styles.percentage,
+              isComplete && styles.percentageComplete,
+            ]}>
             {Math.round((progress || 0) * 100)}%
           </Text>
 
-          <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
-            <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
+          {!isComplete && (
+            <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </Modal>
@@ -82,6 +115,9 @@ const styles = StyleSheet.create({
     borderRadius: UtilityMethods.wp(6),
     marginBottom: UtilityMethods.hp(2),
   },
+  iconContainerComplete: {
+    backgroundColor: Colors.parotGreen + '20',
+  },
   title: {
     fontFamily: Fonts.BOLD,
     fontSize: FontSize.VALUE(18),
@@ -103,6 +139,9 @@ const styles = StyleSheet.create({
     fontSize: FontSize.VALUE(24),
     color: Colors.BLACK,
     marginTop: UtilityMethods.hp(1),
+  },
+  percentageComplete: {
+    color: Colors.parotGreen,
   },
   cancelButton: {
     marginTop: UtilityMethods.hp(2.5),
